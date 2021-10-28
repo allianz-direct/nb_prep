@@ -1,0 +1,8 @@
+-   id: nbconvert_rename
+    name: nbconvert_rename
+    description: 'Apply nbconvert and rename to ipynb files'
+    entry: nbconvert_rename
+    language: python
+    language_version: python3
+    files: '\.ipynb$'
+    require_serial: true
