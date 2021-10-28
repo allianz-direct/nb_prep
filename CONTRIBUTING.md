@@ -18,4 +18,10 @@ mkdir test_prj
 cp precommit_nbconvert_rename/tests/data/example.ipynb test_prj/
 cd test_prj
 git init
+git add --all
+pre-commit try-repo ..\precommit_nbconvert_rename\ --verbose
+git commit -m "test"
+pre-commit try-repo ..\precommit_nbconvert_rename\ --verbose --hook-stage post-commit
 ```
+
+

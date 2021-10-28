@@ -1,8 +1,17 @@
--   id: nbconvert_rename
-    name: nbconvert_rename
-    description: 'Apply nbconvert and rename to ipynb files'
+-   id: nbconvert_rename_precommit
+    name: Run nbconvert on notebooks
+    description: 'Converts to .ipynb to .html and adds date prefix and hash placeholder.'
     entry: nbconvert_rename
     language: python
     language_version: python3
-    files: '\.ipynb$'
-    require_serial: true
+    types: [jupyter]
+-   id: nbconvert_rename_postcommit
+    name: Replace commithash placeholder in generated .html files
+    description: 'Replaces NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER with commit hash in any .html filenames.'
+    entry: rename_commithash
+    types: [html]    
+    language: python
+    language_version: python3
+    always_run: true
+    stages: [post-commit]
+    

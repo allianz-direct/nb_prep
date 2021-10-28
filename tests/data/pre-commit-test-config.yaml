@@ -1,5 +1,5 @@
 repos:
-- repo: ../precommit_nbconvert_rename
+- repo: local
   hooks:
   - id: nbconvert_rename
     name: Run nbconvert on notebooks
