@@ -1,10 +1,11 @@
 """
-Should run on post-commit hook
+Should run on post-commit hook.
 
 git rev-parse --short HEAD
 """
 
 import os
+import sys
 import subprocess
 from pathlib import Path
 import argparse
@@ -43,13 +44,15 @@ def git_version():
 
 def convert_filename(path: str, commithash: str) -> None:
     """
-    Renames files.
-
     Replaces NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER with last commit.
+
+    Args:
+        path (str): path to notebook
+        commithash (str): short hash of commit to insert
     """
     p = Path(path)
     stem = Path(path).stem
-    if not "NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER" in stem:
+    if "NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER" not in stem:
         return
 
     stem = stem.replace("NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER", commithash)
@@ -57,12 +60,13 @@ def convert_filename(path: str, commithash: str) -> None:
 
 
 def main():
-
+    """
+    post-commit hook.
+    """
     parser = argparse.ArgumentParser(
-        description="Replace all NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER occurances in .html filenames with latest hash."
+        description="Replace all NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER occurances in .html filenames with latest hash."  # noqa
     )
-    # parser.add_argument("filenames", nargs="+", help="files or directories to format")
-    args = parser.parse_args()
+    _ = parser.parse_args()
 
     filenames = []
     path = Path(os.getcwd())

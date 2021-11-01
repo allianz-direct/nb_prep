@@ -16,9 +16,7 @@ def test_convert_notebook(tmp_path):
     )
     with working_directory(str(tmp_path)):
         convert_notebook(str(tmp_path / "example.ipynb"))
-        assert Path(
-            "20120114_example_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html"
-        ).exists()
+        assert Path("20120114_example_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html").exists()
 
         # No date prefix
         convert_notebook(str(tmp_path / "example.ipynb"), date_format="")

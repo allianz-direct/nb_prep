@@ -7,7 +7,7 @@ setup_args = {
     "name": "precommit_nbconvert_rename",
     "version": "0.0.1",
     "packages": find_packages(),
-    "install_requires": ["jupyter-client", "nbconvert"],
+    "install_requires": ["jupyter-client", "nbconvert", "pre-commit"],
     "author": "Tim Vink",
     "author_email": "vinktim@gmail.com",
     "long_description": long_description,

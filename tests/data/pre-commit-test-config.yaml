@@ -1,9 +1,27 @@
 repos:
-- repo: local
-  hooks:
-  - id: nbconvert_rename
-    name: Run nbconvert on notebooks
-    description: Converts to .ipynb to .html and adds date prefix and hash placeholder.
-    entry: nbconvert_rename
-    language: python
-
+-   repo: local
+    hooks:
+    -   id: nbconvert_rename_precommit
+        name: precommit_nbconvert_rename (pre-commit; run nbconvert)
+        description: 'Converts to .ipynb to .html and adds date prefix and hash placeholder.'
+        entry: nbconvert_rename
+        language: python
+        language_version: python3
+        types: [jupyter]
+        stages: [commit]
+    -   id: nbconvert_rename_postcommit
+        name: precommit_nbconvert_rename (post-commit; replace commithash in .html filenames)
+        description: 'Replaces NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER with commit hash in any .html filenames.'
+        entry: rename_commithash
+        types: [html]    
+        language: python
+        language_version: python3
+        always_run: true
+        stages: [post-commit]
+-   repo: local
+    hooks:
+      - id: nbstripout
+        name: nbstripout
+        entry: nbstripout
+        language: system
+        stages: [commit]

@@ -10,6 +10,13 @@ from nbconvert import HTMLExporter
 
 
 def convert_notebook(path: str, date_format="%Y%m%d") -> None:
+    """
+    Converts .ipynb to .html.
+
+    Args:
+        path (str): path to notebook
+        date_format (str): format to write date prefix in
+    """
     html_exporter = HTMLExporter()
     html_exporter.template_name = "classic"
 
@@ -20,17 +27,26 @@ def convert_notebook(path: str, date_format="%Y%m%d") -> None:
         date_prefix += "_"
 
     html_path = Path(path)
-    html_path = html_path.with_stem(
-        f"{date_prefix}{html_path.stem}_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER"
-    )
+    html_path = html_path.with_stem(f"{date_prefix}{html_path.stem}_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER")
     html_path = html_path.with_suffix(".html")
 
-    with codecs.open(html_path, "w", "utf-8") as f:
-        f.write(body)
+    # why not overwrite files?
+    # Intended usecase is nbconvert > nbstripout > add commit hash on post-commit
+    # nbstripout will edit your notebook and fail on pre-commit
+    # then you need to re-add your (stripped) .ipynb and commit again
+    # that would mean nbconvert runs again on your stripped file
+    # using html_path_.exists() prevents this.
+    # If a user would continue editing the .ipynb after the failed precommit nbstripout
+    # Then the nbconvert .html would be outdated of course.
+    if not html_path.exists():
+        with codecs.open(str(html_path), "w", "utf-8") as f:
+            f.write(body)
 
 
 def main():
-
+    """
+    Precommit hook.
+    """
     parser = argparse.ArgumentParser(
         description="Convert Jupyter notebooks to HTML and add date prefix and commit hash placeholder."
     )
@@ -48,11 +64,7 @@ def main():
     for fn in args.filenames:
         path = Path(os.path.abspath(fn))
         if path.is_dir():
-            filenames += list(
-                str(fn)
-                for fn in path.glob("**/*.ipynb")
-                if not exclude_re.search(str(fn))
-            )
+            filenames += list(str(fn) for fn in path.glob("**/*.ipynb") if not exclude_re.search(str(fn)))
         else:
             filenames.append(str(path))
 

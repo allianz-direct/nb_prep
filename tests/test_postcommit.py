@@ -12,10 +12,7 @@ def test_convert_filename(tmp_path):
     )
     with working_directory(str(tmp_path)):
         convert_filename(
-            str(
-                tmp_path
-                / "20211028_example_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html"
-            ),
+            str(tmp_path / "20211028_example_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html"),
             commithash="helloworld",
         )
         assert Path(str(tmp_path / "20211028_example_helloworld.html")).exists()
