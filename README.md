@@ -84,7 +84,7 @@ Make sure to avoid committing HTML files by adding `.html` added to your `.gitig
 git add notebook.ipynb
 git commit -m "Add notebook"
 # precommit_nbconvert_rename (pre-commit; run nbconvert)............................Passed
-# nbstripout........................................................................Failed
+# nbstripout........................................................................Passed
 # precommit_nbconvert_rename (post-commit; replace commithash in .html filenames)...Passed
 ```
 
