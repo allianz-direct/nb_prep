@@ -2,15 +2,15 @@
 
 Use `nbconvert` and `nbstripout` together as precommit hooks.
 
-A pre-commit hook that converts any changed jupyter notebooks (`.ipynb`) to `.html` files with a YYYYMMDD date prefix and commit hash suffix added:
+A pre-commit hook that converts any changed jupyter notebooks (`.ipynb`) to `.html` files with a YYYMMDD date prefix and commit hash suffix added:
 
 `my_notebook.ipynb` -> `20211026_my_notebook_eac9e43.html`
 
 ## Use case
 
-Jupyter notebooks contain not only code but also outputs (tables, plots, interactive elements) as well as execution counts. You should not commit data to git (also because of security) so a common solution for jupyter notebooks is to use [nbstripout](https://github.com/kynan/nbstripout) as [pre-commit](https://pre-commit.com/) hook. This has as added benefit that your notebooks are now more easily version-controlled, as re-running a cell does not lead to a `git diff`. The downside is having to re-execute notebooks everytime you want to view or share them.
+Jupyter notebooks contain not only code but also outputs (tables, plots, interactive elements) as well as execution counts. You should not commit data to git (also because of security) so a common solution for jupyter notebooks is to use [nbstripout](https://github.com/kynan/nbstripout) as [pre-commit](https://pre-commit.com/) hook. This has as added benefit that your notebooks are not more easily version-controlled, as re-running a cell does not lead to a `git diff`. The downside is having to re-execute notebooks everytime you want to view or share them.
 
-`precommit_nbconvert_rename` runs [nbconvert](https://github.com/jupyter/nbconvert) each time you make a commit that touches a jupyter notebook, and adds a date prefix and commit hash suffix to the filename. Having the commit hash in the file named has the added benefit that you can always find the changes in the file in git. Obviously these `.html` should remain local and not be committed to `git`, so make sure to add `*.html` to your `.gitignore` file. Here's an overview of the workflow:
+`precommit_nbconvert_rename` runs [nbconvert](https://github.com/jupyter/nbconvert) each time you make a commit that touches a jupyter notebook, and adds a date prefix and commit hash suffix to the filename. Having the commit hash in the file named has the added benefit that you can always find the changes in the file in git. Obviously these `.html` should remain local and not be committed to `git`, so make sure to `*.html` to your `.gitignore` file. Here's an overview of the workflow:
 
 <img src="images/schema_workflow.png" width="700px">
 
@@ -29,6 +29,7 @@ python -m pip install git+https://github.developer.allianz.io/allianz-direct/pre
 You need to update the `.pre-commit-config.yaml` in your repository. We'll assume you want to use `nbconvert_rename` with [nbstripout](https://github.com/kynan/nbstripout#using-nbstripout-as-a-pre-commit-hook) and include that here:
 
 ```yaml
+default_stages: [commit]
 repos:
 -   repo: local
     hooks:
@@ -55,8 +56,6 @@ repos:
         name: nbstripout
         entry: nbstripout
         language: system
-        stages: [commit]
-
 ```
 
 You need to install the pre-commit and the post-commit hooks separately:
@@ -66,5 +65,27 @@ pre-commit install
 pre-commit install --hook-type post-commit
 ```
 
-And you're ready to start committing notebooks :)
+When you commit a notebook, you might see something like:
 
+```shell
+git add notebook.ipynb
+git commit -m "Add notebook"
+# precommit_nbconvert_rename (pre-commit; run nbconvert)............................Passed
+# nbstripout........................................................................Failed
+# - hook id: nbstripout
+# - files were modified by this hook
+# precommit_nbconvert_rename (post-commit; replace commithash in .html filenames)...Passed
+```
+
+`nbstripout` has overwritten `notebook.ipynb` and `nbconvert-rename` has created a file named something like `20211026_notebook_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html`.
+Make sure to avoid committing HTML files by adding `.html` added to your `.gitignore` file. Next:
+
+```shell
+git add notebook.ipynb
+git commit -m "Add notebook"
+# precommit_nbconvert_rename (pre-commit; run nbconvert)............................Passed
+# nbstripout........................................................................Failed
+# precommit_nbconvert_rename (post-commit; replace commithash in .html filenames)...Passed
+```
+
+Now, you've committed a clean, stripped version of `notebook.ipynb` and you have a local snapshot of your notebook named something like `20211026_notebook_eac9e43.html`.
