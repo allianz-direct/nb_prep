@@ -9,7 +9,7 @@ pre-commit install
 
 ## Edit drawings
 
-We useed excalidraw, you can edit the vector image [here](https://excalidraw.com/#json=5290764292587520,XQqP1Lk4aT94hZ6_lBatHw).
+We useed excalidraw, you can edit the vector image [here](https://excalidraw.com/#json=5272425855975424,sXm3L5A8Yr5EH9nkuENJIQ).
 ## Testing
 
 There are some unit tests you can run with `pytest`. 

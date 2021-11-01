@@ -10,11 +10,11 @@ A pre-commit hook that converts any changed jupyter notebooks (`.ipynb`) to `.ht
 
 Jupyter notebooks contain not only code but also outputs (tables, plots, interactive elements) as well as execution counts. You should not commit data to git (also because of security) so a common solution for jupyter notebooks is to use [nbstripout](https://github.com/kynan/nbstripout) as [pre-commit](https://pre-commit.com/) hook. This has as added benefit that your notebooks are not more easily version-controlled, as re-running a cell does not lead to a `git diff`. The downside is having to re-execute notebooks everytime you want to view or share them.
 
-`precommit_nbconvert_rename` runs [nbconvert](https://github.com/jupyter/nbconvert) each time you make a commit that touches a jupyter notebook, and adds a date prefix and commit hash suffix to the filename. Having the commit hash in the file named has the added benefit that you can always find the changes in the file in git. Obviously these `.html` should remain local and not be committed to `git`, so make sure to `*.html` to your `.gitignore` file.
+`precommit_nbconvert_rename` runs [nbconvert](https://github.com/jupyter/nbconvert) each time you make a commit that touches a jupyter notebook, and adds a date prefix and commit hash suffix to the filename. Having the commit hash in the file named has the added benefit that you can always find the changes in the file in git. Obviously these `.html` should remain local and not be committed to `git`, so make sure to `*.html` to your `.gitignore` file. Here's an overview of the workflow:
 
-![schema workflow](images/schema_workflow.svg)
+<img src="images/schema_workflow.png" width="700px">
 
-> `nbstripout` pre-commit hooks will edit your notebook files and fail the pre-commit. When you add the stripped notebook and commit again, `nbconvert-rename` will not run `nbconvert` again because there is already .html file
+> Note: `nbstripout` pre-commit hooks will edit your notebook files and fail the pre-commit. When you add the stripped notebook and commit again, `nbconvert-rename` will not run `nbconvert` again because there is already .html file
 
 ## Installation
 
