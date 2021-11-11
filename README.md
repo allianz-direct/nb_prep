@@ -29,6 +29,7 @@ python -m pip install git+https://github.developer.allianz.io/allianz-direct/pre
 You need to update the `.pre-commit-config.yaml` in your repository. We'll assume you want to use `nbconvert_rename` with [nbstripout](https://github.com/kynan/nbstripout#using-nbstripout-as-a-pre-commit-hook) and include that here:
 
 ```yaml
+default_stages: [commit]
 repos:
 -   repo: local
     hooks:
@@ -55,8 +56,6 @@ repos:
         name: nbstripout
         entry: nbstripout
         language: system
-        stages: [commit]
-
 ```
 
 You need to install the pre-commit and the post-commit hooks separately:
@@ -66,7 +65,30 @@ pre-commit install
 pre-commit install --hook-type post-commit
 ```
 
-And you're ready to start committing notebooks :)
+When you commit a notebook, you might see something like:
+
+```shell
+git add notebook.ipynb
+git commit -m "Add notebook"
+# precommit_nbconvert_rename (pre-commit; run nbconvert)............................Passed
+# nbstripout........................................................................Failed
+# - hook id: nbstripout
+# - files were modified by this hook
+# precommit_nbconvert_rename (post-commit; replace commithash in .html filenames)...Passed
+```
+
+`nbstripout` has overwritten `notebook.ipynb` and `nbconvert-rename` has created a file named something like `20211026_notebook_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html`.
+Make sure to avoid committing HTML files by adding `.html` added to your `.gitignore` file. Next:
+
+```shell
+git add notebook.ipynb
+git commit -m "Add notebook"
+# precommit_nbconvert_rename (pre-commit; run nbconvert)............................Passed
+# nbstripout........................................................................Passed
+# precommit_nbconvert_rename (post-commit; replace commithash in .html filenames)...Passed
+```
+
+Now, you've committed a clean, stripped version of `notebook.ipynb` and you have a local snapshot of your notebook named something like `20211026_notebook_eac9e43.html`.
 
 ### Using templates
 
