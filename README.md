@@ -68,3 +68,15 @@ pre-commit install --hook-type post-commit
 
 And you're ready to start committing notebooks :)
 
+### Using templates
+
+If you want to specify a different template for `nbconvert`, you can add an argument to the `nbconvert_rename_precommit` hook:
+
+```yaml
+-   repo: local
+    hooks:
+    -   id: nbconvert_rename_precommit
+        entry: nbconvert_rename
+        ...
+        args: ["--template","reveal"]
+```

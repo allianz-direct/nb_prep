@@ -9,16 +9,19 @@ from pathlib import Path
 from nbconvert import HTMLExporter
 
 
-def convert_notebook(path: str, date_format="%Y%m%d") -> None:
+def convert_notebook(path: str, date_format: str = "%Y%m%d", template: str = "") -> None:
     """
     Converts .ipynb to .html.
 
     Args:
         path (str): path to notebook
         date_format (str): format to write date prefix in
+        template (str): Name of the nbconvert template
     """
-    html_exporter = HTMLExporter()
-    html_exporter.template_name = "classic"
+    if template:
+        html_exporter = HTMLExporter(template_name=template)
+    else:
+        html_exporter = HTMLExporter()
 
     (body, _) = html_exporter.from_filename(path)
 
@@ -45,6 +48,8 @@ def convert_notebook(path: str, date_format="%Y%m%d") -> None:
 
 def main():
     """
+    The 'nbconvert_rename' command.
+
     Precommit hook.
     """
     parser = argparse.ArgumentParser(
@@ -56,6 +61,12 @@ def main():
         type=str,
         help="Format of the date prefix. Defaults to %Y%m%d, set to empty for no prefix",
         default="%Y%m%d",
+    )
+    parser.add_argument(
+        "--template",
+        type=str,
+        help="Name of the nbconvert template to use.",
+        default="",
     )
     args = parser.parse_args()
 
@@ -69,7 +80,7 @@ def main():
             filenames.append(str(path))
 
     for path in filenames:
-        convert_notebook(path, date_format=args.date_prefix_format)
+        convert_notebook(path, date_format=args.date_prefix_format, template=args.template)
 
     return 0
 
