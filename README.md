@@ -102,3 +102,30 @@ If you want to specify a different template for `nbconvert`, you can add an argu
         ...
         args: ["--template","reveal"]
 ```
+
+### Removing cell blocks
+
+You can also choose to remove input code blocks (equivalent to `jupyter nbconvert --no-input`)
+
+```yaml
+-   repo: local
+    hooks:
+    -   id: nbconvert_rename_precommit
+        entry: nbconvert_rename
+        ...
+        args: ["--no-input"]
+```
+
+### Specifying an output directory
+
+You might want to output all HTML notebooks in a specific folder. You can specify a relative or absolute path using `--output-dir`:
+
+```yaml
+-   repo: local
+    hooks:
+    -   id: nbconvert_rename_precommit
+        entry: nbconvert_rename
+        ...
+        args: ["--output-dir","../data/notebooks"]
+```
+
