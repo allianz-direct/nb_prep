@@ -9,7 +9,7 @@ from pathlib import Path
 from nbconvert import HTMLExporter
 
 
-def convert_notebook(path: str, date_format: str = "%Y%m%d", template: str = "") -> None:
+def convert_notebook(path: str, date_format: str = "%Y%m%d", template: str = "", no_input: bool = False) -> None:
     """
     Converts .ipynb to .html.
 
@@ -17,11 +17,17 @@ def convert_notebook(path: str, date_format: str = "%Y%m%d", template: str = "")
         path (str): path to notebook
         date_format (str): format to write date prefix in
         template (str): Name of the nbconvert template
+        no_input (bool): Remove code input blocks
     """
     if template:
         html_exporter = HTMLExporter(template_name=template)
     else:
         html_exporter = HTMLExporter()
+
+    if no_input:
+        html_exporter.exclude_output_prompt = True
+        html_exporter.exclude_input = True
+        html_exporter.exclude_input_prompt = True
 
     (body, _) = html_exporter.from_filename(path)
 
@@ -68,6 +74,11 @@ def main():
         help="Name of the nbconvert template to use.",
         default="",
     )
+    parser.add_argument(
+        "--no-input",
+        action="store_true",
+        help="When specified code blocks are not include.",
+    )
     args = parser.parse_args()
 
     exclude_re = re.compile(r"/(\.ipynb_checkpoints)/")
@@ -80,7 +91,7 @@ def main():
             filenames.append(str(path))
 
     for path in filenames:
-        convert_notebook(path, date_format=args.date_prefix_format, template=args.template)
+        convert_notebook(path, date_format=args.date_prefix_format, template=args.template, no_input=args.no_input)
 
     return 0
 
