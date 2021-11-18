@@ -9,7 +9,9 @@ from pathlib import Path
 from nbconvert import HTMLExporter
 
 
-def convert_notebook(path: str, date_format: str = "%Y%m%d", template: str = "", no_input: bool = False) -> None:
+def convert_notebook(
+    path: str, date_format: str = "%Y%m%d", template: str = "", no_input: bool = False, output_dir: str = "."
+) -> None:
     """
     Converts .ipynb to .html.
 
@@ -18,7 +20,11 @@ def convert_notebook(path: str, date_format: str = "%Y%m%d", template: str = "",
         date_format (str): format to write date prefix in
         template (str): Name of the nbconvert template
         no_input (bool): Remove code input blocks
+        output_dir (str): Path to output directory (rel or abs)
     """
+    if not Path(output_dir).exists():
+        raise IsADirectoryError(f"The --output-dir specified ('{output_dir}') does not exist")
+
     if template:
         html_exporter = HTMLExporter(template_name=template)
     else:
@@ -38,6 +44,15 @@ def convert_notebook(path: str, date_format: str = "%Y%m%d", template: str = "",
     html_path = Path(path)
     html_path = html_path.with_stem(f"{date_prefix}{html_path.stem}_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER")
     html_path = html_path.with_suffix(".html")
+
+    output_path = Path(output_dir)
+    if output_path.is_absolute():
+        # absolute output directory
+        output_file = output_path / html_path.name
+    else:
+        # relative output directory
+        output_file = html_path.parent / output_path / html_path.name
+        output_file = output_file.resolve()
 
     # why not overwrite files?
     # Intended usecase is nbconvert > nbstripout > add commit hash on post-commit
@@ -74,12 +89,12 @@ def main():
         help="Name of the nbconvert template to use.",
         default="",
     )
-    # parser.add_argument(
-    #     "--output-dir",
-    #     type=str,
-    #     help="Path of output directory",
-    #     default=".",
-    # )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        help="Path of output directory",
+        default=".",
+    )
     parser.add_argument(
         "--no-input",
         action="store_true",
@@ -97,7 +112,13 @@ def main():
             filenames.append(str(path))
 
     for path in filenames:
-        convert_notebook(path, date_format=args.date_prefix_format, template=args.template, no_input=args.no_input)
+        convert_notebook(
+            path,
+            date_format=args.date_prefix_format,
+            template=args.template,
+            no_input=args.no_input,
+            output_dir=args.output_dir,
+        )
 
     return 0
 
