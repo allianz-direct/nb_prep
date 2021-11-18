@@ -5,7 +5,7 @@ with open("README.md", "r") as readme:
 
 setup_args = {
     "name": "precommit_nbconvert_rename",
-    "version": "0.0.2",
+    "version": "0.1.0",
     "packages": find_packages(),
     "install_requires": ["jupyter-client", "nbconvert", "pre-commit"],
     "author": "Tim Vink",
