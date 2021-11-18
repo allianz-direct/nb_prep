@@ -65,7 +65,7 @@ def main():
     parser.add_argument(
         "--date-prefix-format",
         type=str,
-        help="Format of the date prefix. Defaults to %Y%m%d, set to empty for no prefix",
+        help="Format of the date prefix. Defaults to %%Y%%m%%d, set to empty for no prefix",
         default="%Y%m%d",
     )
     parser.add_argument(
@@ -74,6 +74,12 @@ def main():
         help="Name of the nbconvert template to use.",
         default="",
     )
+    # parser.add_argument(
+    #     "--output-dir",
+    #     type=str,
+    #     help="Path of output directory",
+    #     default=".",
+    # )
     parser.add_argument(
         "--no-input",
         action="store_true",
