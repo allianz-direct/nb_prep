@@ -23,7 +23,7 @@ def find_notebooks(directories: List[str], exclude_list: List[str] = []) -> List
 
         if not fn.is_dir():
             if fn.suffix == ".ipynb" and not is_excluded(fn, exclude_list):
-                filenames.append(str(path))
+                filenames.append(str(fn))
                 continue
 
         notebooks = [

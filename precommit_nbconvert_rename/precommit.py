@@ -116,7 +116,7 @@ def parse_args(args):
         required=False,
     )
 
-    args = parser.parse_args()
+    return parser.parse_args()
 
 
 def main():
@@ -129,7 +129,7 @@ def main():
 
     notebook_paths = find_notebooks(args.filenames)
 
-    for path in filenames:
+    for path in notebook_paths:
         convert_notebook(
             path,
             date_format=args.date_prefix_format,
