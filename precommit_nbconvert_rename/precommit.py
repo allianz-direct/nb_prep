@@ -9,7 +9,11 @@ from precommit_nbconvert_rename.files import find_notebooks
 
 
 def convert_notebook(
-    path: str, date_format: str = "%Y%m%d", template: str = "", no_input: bool = False, output_dir: str = "."
+    path: str,
+    date_format: str = "%Y%m%d",
+    template: str = "",
+    no_input: bool = False,
+    output_dir: str = ".",
 ) -> None:
     """
     Converts .ipynb to .html.
@@ -22,7 +26,9 @@ def convert_notebook(
         output_dir (str): Path to output directory (rel or abs)
     """
     if not Path(output_dir).exists():
-        raise IsADirectoryError(f"The --output-dir specified ('{output_dir}') does not exist")
+        raise IsADirectoryError(
+            f"The --output-dir specified ('{output_dir}') does not exist"
+        )
 
     if template:
         html_exporter = HTMLExporter(template_name=template)
@@ -41,7 +47,9 @@ def convert_notebook(
         date_prefix += "_"
 
     html_path = Path(path)
-    html_path = html_path.with_stem(f"{date_prefix}{html_path.stem}_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER")
+    html_path = html_path.with_stem(
+        f"{date_prefix}{html_path.stem}_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER"
+    )
     html_path = html_path.with_suffix(".html")
 
     output_path = Path(output_dir)
@@ -73,7 +81,11 @@ def parse_args(args):
     parser = argparse.ArgumentParser(
         description="Convert Jupyter notebooks to HTML and add date prefix and commit hash placeholder."
     )
-    parser.add_argument("filenames", nargs="+", help="List of directories and/or files to find and convert notebooks")
+    parser.add_argument(
+        "filenames",
+        nargs="+",
+        help="List of directories and/or files to find and convert notebooks",
+    )
     parser.add_argument(
         "--date-prefix-format",
         type=str,
@@ -98,13 +110,13 @@ def parse_args(args):
         help="When specified code blocks are not include.",
     )
     parser.add_argument(
-        '--exclude', 
-        nargs='+', 
-        help='List of directories to exclude from processing.', 
-        required=False)
-    
-    args = parser.parse_args()
+        "--exclude",
+        nargs="+",
+        help="List of directories to exclude from processing.",
+        required=False,
+    )
 
+    args = parser.parse_args()
 
 
 def main():

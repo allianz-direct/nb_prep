@@ -8,14 +8,13 @@ from contextlib import contextmanager
 def find_notebooks(directories: List[str], exclude_list: List[str] = []) -> List[str]:
     """
     Find jupyter notebooks in a list of paths.
-    
+
     Args:
         directories: List of paths to dirs and files.
         exclude_list: List of globs to exclude.
-    
+
     """
 
-    
     filenames = []
 
     for fn in directories:
@@ -27,21 +26,22 @@ def find_notebooks(directories: List[str], exclude_list: List[str] = []) -> List
                 filenames.append(str(path))
                 continue
 
-
-
-        notebooks = [str(f) for f in fn.glob("**/*.ipynb") if not f.suffix == ".ipynb_checkpoints"]
+        notebooks = [
+            str(f)
+            for f in fn.glob("**/*.ipynb")
+            if not f.suffix == ".ipynb_checkpoints"
+        ]
         notebooks = [f for f in notebooks if not is_excluded(f, exclude_list)]
 
         filenames += notebooks
-        
-    return filenames
 
+    return filenames
 
 
 def is_excluded(src_path: str, globs: List[str]) -> bool:
     """
     Determine if a src_path should be excluded.
-    
+
     Supports globs (e.g. folder/* or *.md).
     Credits: code inspired by / adapted from
     https://github.com/apenwarr/mkdocs-exclude/blob/master/mkdocs_exclude/plugin.py
@@ -49,13 +49,13 @@ def is_excluded(src_path: str, globs: List[str]) -> bool:
     Args:
         src_path (src): Path of file
         globs (list): list of globs
-    
+
     Returns:
         (bool): whether src_path should be excluded
     """
     if not isinstance(src_path, str):
         src_path = str(src_path)
-    
+
     assert isinstance(globs, list)
 
     for g in globs:
