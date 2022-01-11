@@ -7,7 +7,11 @@ setup_args = {
     "name": "precommit_nbconvert_rename",
     "version": "0.2",
     "packages": find_packages(),
-    "install_requires": ["jupyter-client", "nbconvert", "pre-commit"],
+    "install_requires": [
+        "jupyter-client",  # BSD-3 https://github.com/jupyter/jupyter_client/blob/main/COPYING.md 
+        "nbconvert", # BSD-3 https://github.com/jupyter/nbconvert/blob/main/LICENSE 
+        "pre-commit" # MIT https://github.com/pre-commit/pre-commit/blob/master/LICENSE 
+    ],
     "author": "Tim Vink",
     "author_email": "vinktim@gmail.com",
     "long_description": long_description,
