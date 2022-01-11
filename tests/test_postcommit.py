@@ -2,7 +2,7 @@ import shutil
 
 from pathlib import Path
 from precommit_nbconvert_rename.postcommit import convert_filename
-from utils import working_directory
+from precommit_nbconvert_rename.files import working_directory
 
 
 def test_convert_filename(tmp_path):

@@ -4,7 +4,7 @@ from freezegun import freeze_time
 from pathlib import Path
 
 from precommit_nbconvert_rename.precommit import convert_notebook
-from utils import working_directory
+from precommit_nbconvert_rename.files import working_directory
 
 
 @freeze_time("2012-01-14")

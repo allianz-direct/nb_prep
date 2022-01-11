@@ -90,6 +90,8 @@ git commit -m "Add notebook"
 
 Now, you've committed a clean, stripped version of `notebook.ipynb` and you have a local snapshot of your notebook named something like `20211026_notebook_eac9e43.html`.
 
+## Options
+
 ### Using templates
 
 If you want to specify a different template for `nbconvert`, you can add an argument to the `nbconvert_rename_precommit` hook:
@@ -118,7 +120,7 @@ You can also choose to remove input code blocks (equivalent to `jupyter nbconver
 
 ### Specifying an output directory
 
-You might want to output all HTML notebooks in a specific folder. You can specify a relative or absolute path using `--output-dir`:
+You might want to output all HTML notebooks in a specific folder. You can specify a relative (to project root) or absolute path using `--output-dir`:
 
 ```yaml
 -   repo: local
@@ -129,3 +131,15 @@ You might want to output all HTML notebooks in a specific folder. You can specif
         args: ["--output-dir","../data/notebooks"]
 ```
 
+### Excluding directories and files
+
+You can ignore certain notebooks or even entire directories with [globs](https://docs.python.org/3/library/glob.html), using a relative (to project root) or absolute path with `--exclude`. For example:
+
+```yaml
+-   repo: local
+    hooks:
+    -   id: nbconvert_rename_precommit
+        entry: nbconvert_rename
+        ...
+        args: ["--exclude","../data/notebooks/*", "a_notebook.ipynb"]
+```

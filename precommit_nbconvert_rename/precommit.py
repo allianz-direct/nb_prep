@@ -1,5 +1,3 @@
-import os
-import re
 import sys
 import argparse
 import codecs
@@ -7,6 +5,7 @@ from datetime import datetime
 
 from pathlib import Path
 from nbconvert import HTMLExporter
+from precommit_nbconvert_rename.files import find_notebooks
 
 
 def convert_notebook(
@@ -67,16 +66,14 @@ def convert_notebook(
             f.write(body)
 
 
-def main():
+def parse_args(args):
     """
-    The 'nbconvert_rename' command.
-
-    Precommit hook.
+    Parse arguments passed to 'nbconvert_rename'.
     """
     parser = argparse.ArgumentParser(
         description="Convert Jupyter notebooks to HTML and add date prefix and commit hash placeholder."
     )
-    parser.add_argument("filenames", nargs="+", help="files or directories to format")
+    parser.add_argument("filenames", nargs="+", help="List of directories and/or files to find and convert notebooks")
     parser.add_argument(
         "--date-prefix-format",
         type=str,
@@ -100,16 +97,25 @@ def main():
         action="store_true",
         help="When specified code blocks are not include.",
     )
+    parser.add_argument(
+        '--exclude', 
+        nargs='+', 
+        help='List of directories to exclude from processing.', 
+        required=False)
+    
     args = parser.parse_args()
 
-    exclude_re = re.compile(r"/(\.ipynb_checkpoints)/")
-    filenames = []
-    for fn in args.filenames:
-        path = Path(os.path.abspath(fn))
-        if path.is_dir():
-            filenames += list(str(fn) for fn in path.glob("**/*.ipynb") if not exclude_re.search(str(fn)))
-        else:
-            filenames.append(str(path))
+
+
+def main():
+    """
+    The 'nbconvert_rename' command.
+
+    Precommit hook.
+    """
+    args = parse_args(sys.argv[1:])
+
+    notebook_paths = find_notebooks(args.filenames)
 
     for path in filenames:
         convert_notebook(
