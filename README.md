@@ -1,3 +1,5 @@
+[![Unit tests](https://github.com/allianz-direct/precommit_nbconvert_rename/actions/workflows/unit_tests.yml/badge.svg)](https://github.com/allianz-direct/precommit_nbconvert_rename/actions/workflows/unit_tests.yml)
+
 # precommit_nbconvert_rename
 
 Use `nbconvert` and `nbstripout` together as precommit hooks.
