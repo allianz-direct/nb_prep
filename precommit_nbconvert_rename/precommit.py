@@ -47,7 +47,8 @@ def convert_notebook(
         date_prefix += "_"
 
     html_path = Path(path)
-    html_path = html_path.with_stem(
+
+    html_path = html_path.with_name(
         f"{date_prefix}{html_path.stem}_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER"
     )
     html_path = html_path.with_suffix(".html")
