@@ -19,10 +19,8 @@ Jupyter notebooks contain not only code but also outputs (tables, plots, interac
 ## Installation
 
 ```bash
-python -m pip install git+https://github.developer.allianz.io/allianz-direct/precommit_nbconvert_rename.git
+pip install precommit_nbconvert_rename
 ```
-
-> Why `python -m pip` instead of just `pip`? See this post on [why it has fewer problems](https://adamj.eu/tech/2020/02/25/use-python-m-pip-everywhere/)
 
 ## Usage
 
