@@ -8,9 +8,10 @@ setup_args = {
     "version": "0.2",
     "packages": find_packages(),
     "install_requires": [
-        "jupyter-client",  # BSD-3 https://github.com/jupyter/jupyter_client/blob/main/COPYING.md 
-        "nbconvert", # BSD-3 https://github.com/jupyter/nbconvert/blob/main/LICENSE 
-        "pre-commit" # MIT https://github.com/pre-commit/pre-commit/blob/master/LICENSE 
+        "jupyter-client>=7.1.1",  # BSD-3 https://github.com/jupyter/jupyter_client/blob/main/COPYING.md 
+        "nbconvert>=6.4.0", # BSD-3 https://github.com/jupyter/nbconvert/blob/main/LICENSE 
+        "pre-commit>=2.16.0", # MIT https://github.com/pre-commit/pre-commit/blob/master/LICENSE 
+        "typer>=0.4.0" # MIT https://github.com/tiangolo/typer/blob/master/LICENSE
     ],
     "author": "Tim Vink",
     "author_email": "vinktim@gmail.com",
@@ -19,8 +20,7 @@ setup_args = {
     "url": "",
     "entry_points": {
         "console_scripts": [
-            "nbconvert_rename=precommit_nbconvert_rename.precommit:main",
-            "rename_commithash=precommit_nbconvert_rename.postcommit:main",
+            "nb_convert_strip=precommit_nbconvert_rename.cli:app",
         ]
     },
 }
