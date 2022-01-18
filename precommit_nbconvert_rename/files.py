@@ -110,6 +110,8 @@ def insert_commithash_filename_placeholder(path: str, commithash: str) -> None:
         path (str): path to notebook
         commithash (str): short hash of commit to insert
     """
+    assert len(commithash) != 0
+    
     p = Path(path)
     stem = Path(path).stem
     if "NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER" not in stem:

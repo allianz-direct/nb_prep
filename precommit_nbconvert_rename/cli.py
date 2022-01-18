@@ -1,4 +1,5 @@
 import typer
+import os
 from pathlib import Path
 from typing import List, Optional
 
@@ -22,8 +23,8 @@ def rename(
     "20211026_notebook_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html" 
     "20211026_notebook_26b2841.html"
     """
-    if paths is None:
-        paths = Path(os.getcwd())
+    if len(paths) == 0:
+        paths = [Path(os.getcwd())]
     
     filenames = find_files_in_paths(paths, extension=".html")
 
@@ -37,7 +38,7 @@ def rename(
 def process(
     paths: Optional[List[Path]] = typer.Argument(None, help="Directories and/or files to find and convert notebooks"),
     date_prefix: Optional[str] = typer.Option("%Y%m%d", help="Format of the date prefix. Set to empty for no prefix."),
-    output_dir: Optional[str] = typer.Option(None, help="Path where to place output HTML files."),
+    output_dir: Optional[Path] = typer.Option(".", help="Path where to place output HTML files."),
     exclude: Optional[List[Path]] = typer.Option(None, help="Directories and/or files to exclude from processing"),
     nbconvert_template: Optional[str] = typer.Option(None, help="Name of the nbconvert template to use."),
     nbconvert_no_input: bool = typer.Option(True, help="Nbconvert: Exclude input cells and output prompts from converted document. Ideal for generating code-free reports."),
@@ -51,8 +52,8 @@ def process(
     - Optionally add date prefix to .HTML file
     - Add commit hash placeholder.
     """
-    if paths is None:
-        paths = Path(os.getcwd())
+    if len(paths) == 0:
+        paths = [Path(os.getcwd())]
     
     notebook_paths = find_files_in_paths(paths, extension=".ipynb", exclude_list=exclude)
 

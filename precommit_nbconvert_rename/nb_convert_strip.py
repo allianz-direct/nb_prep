@@ -7,11 +7,11 @@ from precommit_nbconvert_rename.files import find_files_in_paths
 
 
 def convert_notebook(
-    path: str,
+    path: Path,
     date_format: str = "%Y%m%d",
     template: str = "",
     no_input: bool = False,
-    output_dir: str = ".",
+    output_dir: Path = ".",
 ) -> None:
     """
     Converts .ipynb to .html.
@@ -23,10 +23,16 @@ def convert_notebook(
         no_input (bool): Remove code input blocks
         output_dir (str): Path to output directory (rel or abs)
     """
+    if not isinstance(path, Path):
+        path = Path(path)
+    if not isinstance(output_dir, Path):
+        output_dir = Path(output_dir)
+    
     if not Path(output_dir).exists():
         raise IsADirectoryError(
             f"The --output-dir specified ('{output_dir}') does not exist"
         )
+
 
     if template:
         html_exporter = HTMLExporter(template_name=template)
@@ -38,7 +44,7 @@ def convert_notebook(
         html_exporter.exclude_input = True
         html_exporter.exclude_input_prompt = True
 
-    (body, _) = html_exporter.from_filename(path)
+    (body, _) = html_exporter.from_filename(str(path))
 
     date_prefix = datetime.strftime(datetime.now(), date_format)
     if len(date_prefix) != 0:

@@ -12,8 +12,7 @@ def test_is_excluded():
     assert is_excluded("notebook.ipynb", ["notebook.ipynb"])
 
 
-def test_find_notebooks(tmp_path):
-
+def test_find_files_in_paths(tmp_path):
 
     shutil.copytree(
         "tests/data/",
@@ -23,6 +22,10 @@ def test_find_notebooks(tmp_path):
 
         all_notebooks = [f"data{os.sep}example.ipynb", f"data{os.sep}another_example.ipynb"]
         # all_notebooks = set([os.path.abspath(f) for f in all_notebooks])
-        assert set(find_files_in_paths(".")) == set(all_notebooks)
 
+        assert set(find_files_in_paths(".")) == set(all_notebooks)
         assert len(find_files_in_paths(".", exclude_list=["data/*"])) == 0
+
+        html_files = [f"data{os.sep}20211028_example_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html"]
+        assert set(find_files_in_paths(".",extension=".html")) == set(html_files)
+

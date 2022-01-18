@@ -2,11 +2,15 @@
 import os
 import subprocess
 
+class GitError(Exception):
+    pass
+
+
 def git_version():
     """
     Return the git revision as a string.
 
-    Credits: this function was copied from numpy.
+    Credits: this function was adapted from numpy.
     https://stackoverflow.com/a/40170206.
     """
 
@@ -21,8 +25,12 @@ def git_version():
         env["LANGUAGE"] = "C"
         env["LANG"] = "C"
         env["LC_ALL"] = "C"
-        out = subprocess.Popen(cmd, stdout=subprocess.PIPE, env=env).communicate()[0]
-        return out
+        sp = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+        out, err = sp.communicate()
+        if sp.returncode != 0:
+            raise GitError(err.strip().decode("ascii"))
+        else:
+            return out
 
     try:
         out = _minimal_ext_cmd(["git", "rev-parse", "--short", "HEAD"])
