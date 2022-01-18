@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from precommit_nbconvert_rename.files import find_notebooks, is_excluded, working_directory
+from precommit_nbconvert_rename.files import find_files_in_paths, is_excluded, working_directory
 
 
 def test_is_excluded():
@@ -23,6 +23,6 @@ def test_find_notebooks(tmp_path):
 
         all_notebooks = [f"data{os.sep}example.ipynb", f"data{os.sep}another_example.ipynb"]
         # all_notebooks = set([os.path.abspath(f) for f in all_notebooks])
-        assert set(find_notebooks(".")) == set(all_notebooks)
+        assert set(find_files_in_paths(".")) == set(all_notebooks)
 
-        assert len(find_notebooks(".", exclude_list=["data/*"])) == 0
+        assert len(find_files_in_paths(".", exclude_list=["data/*"])) == 0

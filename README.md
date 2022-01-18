@@ -10,13 +10,27 @@ A pre-commit hook that converts any changed jupyter notebooks (`.ipynb`) to `.ht
 
 ## Use case
 
-Jupyter notebooks contain not only code but also outputs (tables, plots, interactive elements) as well as execution counts. You should not commit data to git (also because of security) so a common solution for jupyter notebooks is to use [nbstripout](https://github.com/kynan/nbstripout) as [pre-commit](https://pre-commit.com/) hook. This has as added benefit that your notebooks are not more easily version-controlled, as re-running a cell does not lead to a `git diff`. The downside is having to re-execute notebooks everytime you want to view or share them.
+You use [jupyter notebooks](https://jupyter.org/) and:
 
-`precommit_nbconvert_rename` runs [nbconvert](https://github.com/jupyter/nbconvert) each time you make a commit that touches a jupyter notebook, and adds a date prefix and commit hash suffix to the filename. Having the commit hash in the file named has the added benefit that you can always find the changes in the file in git. Obviously these `.html` should remain local and not be committed to `git`, so make sure to `*.html` to your `.gitignore` file. Here's an overview of the workflow:
+- [nbconvert](https://github.com/jupyter/nbconvert) to convert `.ipynb` files to `.html` files
+- [nbstripout](https://github.com/kynan/nbstripout) to avoid committing (potentially sensitive) data to git and get proper `git diff`s on notebooks (only showing changes in code).
+
+Forget to run `nbconvert`, or use them in the wrong order (`nbstripout` before `nbconvert`) and you will have to re-run your notebooks before you can output HTML, which can be annoying when they are long-running. Especially when you use `nbstripout` as a [pre-commit](https://pre-commit.com/) hook, this can happen quite often.
+
+`precommit_nbconvert_rename` can help to automatically process notebooks and (optionally) store versioned output in an in output directory. The CLI command `nb_convert_strip` takes a list of directories and/or files to find and convert notebooks. For each notebook:
+
+- `nbconvert` is used to create an `<filename>.html` export
+- Date prefix is added `YYYYMMDD_<filename>.html` (can be turned off)
+- Placeholder for git hash is added `YYYYMMDD_<filename>_20211026_notebook_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html`
+- `.html` file is moved to `output-dir` (if specified)
+- `nbstripout` is used strip output from notebook
+
+Now you can `git add` and `git commit` the changed notebook files. You can then use `nb_convert_strip rename` will replace insert the commit hashes in the notebook filenames.
+
+You can setup this entire workflow once as [pre-commit](https://pre-commit.com/) hook, and basically get an up-to-date analysis output directory for free `output-dir`. Schematically:
 
 <img src="images/schema_workflow.png" width="700px">
 
-> Note: `nbstripout` pre-commit hooks will edit your notebook files and fail the pre-commit. When you add the stripped notebook and commit again, `nbconvert-rename` will not run `nbconvert` again because there is already .html file
 
 ## Installation
 

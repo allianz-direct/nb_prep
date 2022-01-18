@@ -5,15 +5,16 @@ from typing import List
 from contextlib import contextmanager
 
 
-def find_notebooks(directories: List[str], exclude_list: List[str] = []) -> List[str]:
+def find_files_in_paths(directories: List[str], extension: str = ".ipynb", exclude_list: List[str] = []) -> List[str]:
     """
-    Find jupyter notebooks in a list of paths.
+    Find all files with a certain extension in a list of paths.
 
     Args:
         directories: List of paths to dirs and files.
+        extension: Extension of target files.
         exclude_list: List of globs to exclude.
-
     """
+    assert extension.startswith(".")
 
     filenames = []
 
@@ -22,18 +23,17 @@ def find_notebooks(directories: List[str], exclude_list: List[str] = []) -> List
         fn = Path(fn)
 
         if not fn.is_dir():
-            if fn.suffix == ".ipynb" and not is_excluded(fn, exclude_list):
+            if fn.suffix == extension and not is_excluded(fn, exclude_list):
                 filenames.append(str(fn))
                 continue
 
-        notebooks = [
-            str(f)
-            for f in fn.glob("**/*.ipynb")
-            if not f.suffix == ".ipynb_checkpoints"
-        ]
-        notebooks = [f for f in notebooks if not is_excluded(f, exclude_list)]
+        files = [f for f in fn.glob(f"**/*{extension}")]
+        if extension == ".ipynb":
+            files = [f for f in files if not f.suffix == ".ipynb_checkpoints"]
+        
+        files = [str(f) for f in files if not is_excluded(f, exclude_list)]
 
-        filenames += notebooks
+        filenames += files
 
     return filenames
 
@@ -79,6 +79,7 @@ def is_excluded(src_path: str, globs: List[str]) -> bool:
     return False
 
 
+
 @contextmanager
 def working_directory(path):
     """
@@ -99,3 +100,21 @@ def working_directory(path):
         yield
     finally:
         os.chdir(prev_cwd)
+
+
+def insert_commithash_filename_placeholder(path: str, commithash: str) -> None:
+    """
+    Replaces NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER with last commit.
+
+    Args:
+        path (str): path to notebook
+        commithash (str): short hash of commit to insert
+    """
+    p = Path(path)
+    stem = Path(path).stem
+    if "NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER" not in stem:
+        return
+
+    stem = stem.replace("NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER", commithash)
+    p.rename(Path(p.parent, f"{stem}{p.suffix}"))
+

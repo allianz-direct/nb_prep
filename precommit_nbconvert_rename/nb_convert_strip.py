@@ -1,11 +1,9 @@
-import sys
-import argparse
 import codecs
 from datetime import datetime
 
 from pathlib import Path
 from nbconvert import HTMLExporter
-from precommit_nbconvert_rename.files import find_notebooks
+from precommit_nbconvert_rename.files import find_files_in_paths
 
 
 def convert_notebook(
@@ -75,72 +73,4 @@ def convert_notebook(
             f.write(body)
 
 
-def parse_args(args):
-    """
-    Parse arguments passed to 'nbconvert_rename'.
-    """
-    parser = argparse.ArgumentParser(
-        description="Convert Jupyter notebooks to HTML and add date prefix and commit hash placeholder."
-    )
-    parser.add_argument(
-        "filenames",
-        nargs="+",
-        help="List of directories and/or files to find and convert notebooks",
-    )
-    parser.add_argument(
-        "--date-prefix-format",
-        type=str,
-        help="Format of the date prefix. Defaults to %%Y%%m%%d, set to empty for no prefix",
-        default="%Y%m%d",
-    )
-    parser.add_argument(
-        "--template",
-        type=str,
-        help="Name of the nbconvert template to use.",
-        default="",
-    )
-    parser.add_argument(
-        "--output-dir",
-        type=str,
-        help="Path of output directory",
-        default=".",
-    )
-    parser.add_argument(
-        "--no-input",
-        action="store_true",
-        help="When specified code blocks are not include.",
-    )
-    parser.add_argument(
-        "--exclude",
-        nargs="+",
-        help="List of directories to exclude from processing.",
-        required=False,
-    )
 
-    return parser.parse_args()
-
-
-def main():
-    """
-    The 'nbconvert_rename' command.
-
-    Precommit hook.
-    """
-    args = parse_args(sys.argv[1:])
-
-    notebook_paths = find_notebooks(args.filenames)
-
-    for path in notebook_paths:
-        convert_notebook(
-            path,
-            date_format=args.date_prefix_format,
-            template=args.template,
-            no_input=args.no_input,
-            output_dir=args.output_dir,
-        )
-
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())

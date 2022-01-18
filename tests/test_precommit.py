@@ -3,7 +3,7 @@ import shutil
 from freezegun import freeze_time
 from pathlib import Path
 
-from precommit_nbconvert_rename.precommit import convert_notebook
+from precommit_nbconvert_rename.nb_convert_strip import convert_notebook
 from precommit_nbconvert_rename.files import working_directory
 
 

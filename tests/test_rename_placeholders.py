@@ -1,8 +1,7 @@
 import shutil
-
 from pathlib import Path
-from precommit_nbconvert_rename.postcommit import convert_filename
-from precommit_nbconvert_rename.files import working_directory
+
+from precommit_nbconvert_rename.files import working_directory, insert_commithash_filename_placeholder
 
 
 def test_convert_filename(tmp_path):
@@ -11,7 +10,7 @@ def test_convert_filename(tmp_path):
         str(tmp_path / "20211028_example_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html"),
     )
     with working_directory(str(tmp_path)):
-        convert_filename(
+        insert_commithash_filename_placeholder(
             str(tmp_path / "20211028_example_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html"),
             commithash="helloworld",
         )
