@@ -18,6 +18,11 @@ def test_convert_notebook(tmp_path):
         convert_notebook(str(tmp_path / "example.ipynb"))
         assert Path("20120114_example_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html").exists()
 
+        # Make sure output is stripped
+        nb = tmp_path / "example.ipynb"
+        txt = nb.read_text()
+        assert "Hello, World!" not in txt
+
         # No date prefix
         convert_notebook(str(tmp_path / "example.ipynb"), date_format="")
         assert Path("example_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html").exists()

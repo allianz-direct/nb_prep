@@ -1,9 +1,14 @@
+import io
 import codecs
-from datetime import datetime
+import sys
+import warnings
 
-from pathlib import Path
+from datetime import datetime
 from nbconvert import HTMLExporter
-from precommit_nbconvert_rename.files import find_files_in_paths
+from nbstripout._utils import strip_output
+from nbformat import read, write, NO_CONVERT
+from nbformat.reader import NotJSONError
+from pathlib import Path
 
 
 def convert_notebook(
@@ -27,12 +32,13 @@ def convert_notebook(
         path = Path(path)
     if not isinstance(output_dir, Path):
         output_dir = Path(output_dir)
-    
+
     if not Path(output_dir).exists():
         raise IsADirectoryError(
             f"The --output-dir specified ('{output_dir}') does not exist"
         )
 
+    ## Run 'nbconvert'
 
     if template:
         html_exporter = HTMLExporter(template_name=template)
@@ -78,5 +84,22 @@ def convert_notebook(
         with codecs.open(str(html_path), "w", "utf-8") as f:
             f.write(body)
 
+    ## Run 'nbstripout'
+    try:
+        nb = read(path, as_version=NO_CONVERT)
+        nb = strip_output(nb, keep_output=False, keep_count=False)
 
+        with io.open(path, "w", encoding="utf8", newline="") as f:
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", category=UserWarning)
+                write(nb, f)
 
+    except NotJSONError:
+        print(f"'{path}' is not a valid notebook", file=sys.stderr)
+        sys.exit(1)
+    except FileNotFoundError:
+        print(f"Could not strip '{path}': file not found", file=sys.stderr)
+        sys.exit(1)
+    except Exception:
+        print(f"Could not strip '{path}'", file=sys.stderr)
+        raise

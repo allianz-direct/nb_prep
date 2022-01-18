@@ -1,6 +1,6 @@
-
 import os
 import subprocess
+
 
 class GitError(Exception):
     pass
@@ -25,7 +25,9 @@ def git_version():
         env["LANGUAGE"] = "C"
         env["LANG"] = "C"
         env["LC_ALL"] = "C"
-        sp = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+        sp = subprocess.Popen(
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env
+        )
         out, err = sp.communicate()
         if sp.returncode != 0:
             raise GitError(err.strip().decode("ascii"))

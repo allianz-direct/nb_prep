@@ -5,7 +5,9 @@ from typing import List
 from contextlib import contextmanager
 
 
-def find_files_in_paths(directories: List[str], extension: str = ".ipynb", exclude_list: List[str] = []) -> List[str]:
+def find_files_in_paths(
+    directories: List[str], extension: str = ".ipynb", exclude_list: List[str] = []
+) -> List[str]:
     """
     Find all files with a certain extension in a list of paths.
 
@@ -30,7 +32,7 @@ def find_files_in_paths(directories: List[str], extension: str = ".ipynb", exclu
         files = [f for f in fn.glob(f"**/*{extension}")]
         if extension == ".ipynb":
             files = [f for f in files if not f.suffix == ".ipynb_checkpoints"]
-        
+
         files = [str(f) for f in files if not is_excluded(f, exclude_list)]
 
         filenames += files
@@ -79,7 +81,6 @@ def is_excluded(src_path: str, globs: List[str]) -> bool:
     return False
 
 
-
 @contextmanager
 def working_directory(path):
     """
@@ -111,7 +112,7 @@ def insert_commithash_filename_placeholder(path: str, commithash: str) -> None:
         commithash (str): short hash of commit to insert
     """
     assert len(commithash) != 0
-    
+
     p = Path(path)
     stem = Path(path).stem
     if "NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER" not in stem:
@@ -119,4 +120,3 @@ def insert_commithash_filename_placeholder(path: str, commithash: str) -> None:
 
     stem = stem.replace("NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER", commithash)
     p.rename(Path(p.parent, f"{stem}{p.suffix}"))
-

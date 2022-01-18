@@ -38,7 +38,7 @@ You can setup this entire workflow once as [pre-commit](https://pre-commit.com/)
 pip install precommit_nbconvert_rename
 ```
 
-## Usage
+## Usage [TODO, update]
 
 You need to update the `.pre-commit-config.yaml` in your repository. We'll assume you want to use `nbconvert_rename` with [nbstripout](https://github.com/kynan/nbstripout#using-nbstripout-as-a-pre-commit-hook) and include that here:
 
@@ -64,12 +64,6 @@ repos:
         language_version: python3
         always_run: true
         stages: [post-commit]
--   repo: local
-    hooks:
-      - id: nbstripout
-        name: nbstripout
-        entry: nbstripout
-        language: system
 ```
 
 You need to install the pre-commit and the post-commit hooks separately:
