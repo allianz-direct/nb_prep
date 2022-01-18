@@ -16,7 +16,7 @@ def convert_notebook(
     date_format: str = "%Y%m%d",
     template: str = "",
     no_input: bool = False,
-    output_dir: Path = ".",
+    output_dir: Path = Path("."),
 ) -> None:
     """
     Converts .ipynb to .html.
@@ -34,11 +34,9 @@ def convert_notebook(
         output_dir = Path(output_dir)
 
     if not Path(output_dir).exists():
-        raise IsADirectoryError(
-            f"The --output-dir specified ('{output_dir}') does not exist"
-        )
+        raise IsADirectoryError(f"The --output-dir specified ('{output_dir}') does not exist")
 
-    ## Run 'nbconvert'
+    # Run 'nbconvert' ############
 
     if template:
         html_exporter = HTMLExporter(template_name=template)
@@ -58,9 +56,7 @@ def convert_notebook(
 
     html_path = Path(path)
 
-    html_path = html_path.with_name(
-        f"{date_prefix}{html_path.stem}_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER"
-    )
+    html_path = html_path.with_name(f"{date_prefix}{html_path.stem}_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER")
     html_path = html_path.with_suffix(".html")
 
     output_path = Path(output_dir)
@@ -84,12 +80,12 @@ def convert_notebook(
         with codecs.open(str(html_path), "w", "utf-8") as f:
             f.write(body)
 
-    ## Run 'nbstripout'
+    # Run 'nbstripout' ############
     try:
         nb = read(path, as_version=NO_CONVERT)
         nb = strip_output(nb, keep_output=False, keep_count=False)
 
-        with io.open(path, "w", encoding="utf8", newline="") as f:
+        with io.open(path, "w", encoding="utf8", newline="") as f:  # type: ignore
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore", category=UserWarning)
                 write(nb, f)

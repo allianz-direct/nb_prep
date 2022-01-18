@@ -8,10 +8,10 @@ setup_args = {
     "version": "0.2",
     "packages": find_packages(),
     "install_requires": [
-        "jupyter-client>=7.1.1",  # BSD-3 https://github.com/jupyter/jupyter_client/blob/main/COPYING.md 
-        "nbconvert>=6.4.0", # BSD-3 https://github.com/jupyter/nbconvert/blob/main/LICENSE 
-        "pre-commit>=2.16.0", # MIT https://github.com/pre-commit/pre-commit/blob/master/LICENSE 
-        "typer>=0.4.0" # MIT https://github.com/tiangolo/typer/blob/master/LICENSE
+        "jupyter-client>=7.1.1",  # BSD-3 https://github.com/jupyter/jupyter_client/blob/main/COPYING.md
+        "nbconvert>=6.4.0",  # BSD-3 https://github.com/jupyter/nbconvert/blob/main/LICENSE
+        "pre-commit>=2.16.0",  # MIT https://github.com/pre-commit/pre-commit/blob/master/LICENSE
+        "typer>=0.4.0",  # MIT https://github.com/tiangolo/typer/blob/master/LICENSE
     ],
     "author": "Tim Vink",
     "author_email": "vinktim@gmail.com",

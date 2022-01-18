@@ -1,13 +1,15 @@
 import os
 import fnmatch
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 from contextlib import contextmanager
 
 
 def find_files_in_paths(
-    directories: List[str], extension: str = ".ipynb", exclude_list: List[str] = []
-) -> List[str]:
+    directories: List[Path],
+    extension: str = ".ipynb",
+    exclude_list: Optional[List[str]] = None,
+) -> List[Path]:
     """
     Find all files with a certain extension in a list of paths.
 
@@ -18,29 +20,31 @@ def find_files_in_paths(
     """
     assert extension.startswith(".")
 
-    filenames = []
+    filenames = []  # type: List[Path]
 
     for fn in directories:
 
-        fn = Path(fn)
+        if not isinstance(fn, Path):
+            fn = Path(fn)
 
         if not fn.is_dir():
             if fn.suffix == extension and not is_excluded(fn, exclude_list):
-                filenames.append(str(fn))
+                filenames.append(fn)
                 continue
 
         files = [f for f in fn.glob(f"**/*{extension}")]
         if extension == ".ipynb":
             files = [f for f in files if not f.suffix == ".ipynb_checkpoints"]
 
-        files = [str(f) for f in files if not is_excluded(f, exclude_list)]
+        if exclude_list is not None:
+            files = [f for f in files if not is_excluded(f, exclude_list)]
 
         filenames += files
 
     return filenames
 
 
-def is_excluded(src_path: str, globs: List[str]) -> bool:
+def is_excluded(src_path: Path, globs: Optional[List[str]] = None) -> bool:
     """
     Determine if a src_path should be excluded.
 
@@ -49,19 +53,20 @@ def is_excluded(src_path: str, globs: List[str]) -> bool:
     https://github.com/apenwarr/mkdocs-exclude/blob/master/mkdocs_exclude/plugin.py
 
     Args:
-        src_path (src): Path of file
+        src_path (Path): Path of file
         globs (list): list of globs
 
     Returns:
         (bool): whether src_path should be excluded
     """
-    if not isinstance(src_path, str):
-        src_path = str(src_path)
+    if globs is None or len(globs) == 0:
+        return False
 
+    assert isinstance(src_path, Path)
     assert isinstance(globs, list)
 
     for g in globs:
-        if fnmatch.fnmatchcase(src_path, g):
+        if fnmatch.fnmatchcase(str(src_path), g):
             return True
 
         # Windows reports filenames as eg.  a\\b\\c instead of a/b/c.
@@ -74,7 +79,7 @@ def is_excluded(src_path: str, globs: List[str]) -> bool:
         # report Windows filenames using / separators regardless of
         # os.sep, so we *always* test with / above.
         if os.sep != "/":
-            src_path_fix = src_path.replace(os.sep, "/")
+            src_path_fix = str(src_path).replace(os.sep, "/")
             if fnmatch.fnmatchcase(src_path_fix, g):
                 return True
 
@@ -85,6 +90,7 @@ def is_excluded(src_path: str, globs: List[str]) -> bool:
 def working_directory(path):
     """
     Temporarily change working directory.
+
     A context manager which changes the working directory to the given
     path, and then changes it back to its previous value on exit.
     Usage:
@@ -103,7 +109,7 @@ def working_directory(path):
         os.chdir(prev_cwd)
 
 
-def insert_commithash_filename_placeholder(path: str, commithash: str) -> None:
+def insert_commithash_filename_placeholder(path: Path, commithash: str) -> None:
     """
     Replaces NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER with last commit.
 

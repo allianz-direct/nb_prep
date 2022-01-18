@@ -15,11 +15,7 @@ app = typer.Typer()
 
 
 @app.command()
-def rename(
-    paths: Optional[List[Path]] = typer.Argument(
-        None, help="Directories and/or files to find and convert notebooks"
-    )
-):
+def rename(paths: List[Path] = typer.Argument(None, help="Directories and/or files to find and convert notebooks")):
     """
     Replaces the placeholder NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER with the current commit hash.
 
@@ -39,24 +35,14 @@ def rename(
 
 @app.command()
 def process(
-    paths: Optional[List[Path]] = typer.Argument(
-        None, help="Directories and/or files to find and convert notebooks"
-    ),
-    date_prefix: Optional[str] = typer.Option(
-        "%Y%m%d", help="Format of the date prefix. Set to empty for no prefix."
-    ),
-    output_dir: Optional[Path] = typer.Option(
-        ".", help="Path where to place output HTML files."
-    ),
-    exclude: Optional[List[Path]] = typer.Option(
-        None, help="Directories and/or files to exclude from processing"
-    ),
-    nbconvert_template: Optional[str] = typer.Option(
-        None, help="Name of the nbconvert template to use."
-    ),
+    paths: List[Path] = typer.Argument(None, help="Directories and/or files to find and convert notebooks"),
+    date_prefix: str = typer.Option("%Y%m%d", help="Format of the date prefix. Set to empty for no prefix."),
+    output_dir: Path = typer.Option(Path("."), help="Path where to place output HTML files."),
+    exclude: Optional[List[str]] = typer.Option(None, help="Globs of directories/files to exclude from processing"),
+    nbconvert_template: str = typer.Option("", help="Name of the nbconvert template to use."),
     nbconvert_no_input: bool = typer.Option(
         True,
-        help="Nbconvert: Exclude input cells and output prompts from converted document. Ideal for generating code-free reports.",
+        help="Nbconvert: Exclude input cells and output prompts from converted document.",
     ),
 ):
     """
@@ -71,9 +57,7 @@ def process(
     if len(paths) == 0:
         paths = [Path(os.getcwd())]
 
-    notebook_paths = find_files_in_paths(
-        paths, extension=".ipynb", exclude_list=exclude
-    )
+    notebook_paths = find_files_in_paths(paths, extension=".ipynb", exclude_list=exclude)
 
     for path in notebook_paths:
         convert_notebook(
