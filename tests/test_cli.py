@@ -3,8 +3,8 @@ import git
 from typer.testing import CliRunner
 from freezegun import freeze_time
 
-from precommit_nbconvert_rename.cli import app
-from precommit_nbconvert_rename.files import working_directory
+from nb_prep.cli import app
+from nb_prep.files import working_directory
 
 runner = CliRunner()
 

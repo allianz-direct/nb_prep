@@ -2,7 +2,7 @@ import os
 import shutil
 from pathlib import Path
 
-from precommit_nbconvert_rename.files import find_files_in_paths, is_excluded, working_directory
+from nb_prep.files import find_files_in_paths, is_excluded, working_directory
 
 
 def test_is_excluded():

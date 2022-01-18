@@ -3,12 +3,12 @@ import os
 from pathlib import Path
 from typing import List, Optional
 
-from precommit_nbconvert_rename.files import (
+from nb_prep.files import (
     find_files_in_paths,
     insert_commithash_filename_placeholder,
 )
-from precommit_nbconvert_rename._utils import git_version
-from precommit_nbconvert_rename.nb_convert_strip import convert_notebook
+from nb_prep._utils import git_version
+from nb_prep.nb_convert_strip import convert_notebook
 
 
 app = typer.Typer()

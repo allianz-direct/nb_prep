@@ -1,7 +1,7 @@
 import shutil
 from pathlib import Path
 
-from precommit_nbconvert_rename.files import working_directory, insert_commithash_filename_placeholder
+from nb_prep.files import working_directory, insert_commithash_filename_placeholder
 
 
 def test_insert_commithash_filename_placeholder(tmp_path):

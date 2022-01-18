@@ -35,11 +35,11 @@ jobs:
 
     - name: Static code checking with pyflakes
       run: |
-        pyflakes precommit_nbconvert_rename
+        pyflakes nb_prep
 
     - name: Run unit tests
       run: |
         git config --global user.name "Github Action"
         git config --global user.email "githubaction@gmail.com"
-        pytest --cov=precommit_nbconvert_rename
+        pytest --cov=nb_prep
   

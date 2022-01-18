@@ -4,7 +4,7 @@ with open("README.md", "r") as readme:
     long_description = readme.read()
 
 setup_args = {
-    "name": "precommit_nbconvert_rename",
+    "name": "nb_prep",
     "version": "1.0",
     "packages": find_packages(),
     "install_requires": [
@@ -17,7 +17,7 @@ setup_args = {
     "author_email": "tim.vink@allianzdirect.nl",
     "long_description": long_description,
     "long_description_content_type": "text/markdown",
-    "url": "https://github.com/allianz-direct/precommit_nbconvert_rename",
+    "url": "https://github.com/allianz-direct/nb_prep",
     "keywords": "precommit nbconvert nbstripout jupyter notebook python",
     "license": "MIT",
     "python_requires": ">=3.7",
@@ -32,7 +32,7 @@ setup_args = {
     ],
     "entry_points": {
         "console_scripts": [
-            "nb_convert_strip=precommit_nbconvert_rename.cli:app",
+            "nb_prep=nb_prep.cli:app",
         ]
     },
 }

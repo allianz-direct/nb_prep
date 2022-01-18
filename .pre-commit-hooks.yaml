@@ -1,5 +1,5 @@
 -   id: nbconvert_rename_precommit
-    name: precommit_nbconvert_rename (pre-commit; run nbconvert)
+    name: nb_prep (pre-commit; run nbconvert)
     description: 'Converts to .ipynb to .html and adds date prefix and hash placeholder.'
     entry: nbconvert_rename
     language: python
@@ -7,7 +7,7 @@
     types: [jupyter]
     stages: [commit]
 -   id: nbconvert_rename_postcommit
-    name: precommit_nbconvert_rename (post-commit; replace commithash in .html filenames)
+    name: nb_prep (post-commit; replace commithash in .html filenames)
     description: 'Replaces NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER with commit hash in any .html filenames.'
     entry: rename_commithash
     types: [html]    
