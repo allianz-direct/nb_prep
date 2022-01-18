@@ -12,6 +12,7 @@ setup_args = {
         "nbconvert>=6.4.0",  # BSD-3 https://github.com/jupyter/nbconvert/blob/main/LICENSE
         "pre-commit>=2.16.0",  # MIT https://github.com/pre-commit/pre-commit/blob/master/LICENSE
         "typer>=0.4.0",  # MIT https://github.com/tiangolo/typer/blob/master/LICENSE
+        "nbstripout>=0.5.0",  # MIT https://github.com/kynan/nbstripout/blob/master/LICENSE.txt
     ],
     "author": "Tim Vink",
     "author_email": "tim.vink@allianzdirect.nl",

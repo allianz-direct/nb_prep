@@ -25,9 +25,9 @@ cp nb_prep/tests/data/example.ipynb test_prj/
 cd test_prj
 git init
 git add --all
-pre-commit try-repo ..\nb_prep\ --verbose
+pre-commit try-repo ../nb_prep --verbose
 git commit -m "test"
-pre-commit try-repo ..\nb_prep\ --verbose --hook-stage post-commit
+pre-commit try-repo ../nb_prep/ --verbose --hook-stage post-commit
 ```
 
 ### manually test a precommit config

@@ -46,6 +46,10 @@ pip install nb_prep
 
 ## Usage [TODO, update]
 
+
+- You'll probably want to `.gitignore` the `.html` files generated. Especially if you use `--output-dir`.
+
+
 You need to update the `.pre-commit-config.yaml` in your repository. We'll assume you want to use `nbconvert_rename` with [nbstripout](https://github.com/kynan/nbstripout#using-nbstripout-as-a-pre-commit-hook) and include that here:
 
 ```yaml

@@ -32,7 +32,7 @@ def git_version():
         sp = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
         out, err = sp.communicate()
         if sp.returncode != 0:
-            raise GitError(err.strip().decode("ascii"))
+            raise GitError(err)
         else:
             return out
 
