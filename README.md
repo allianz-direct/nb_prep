@@ -1,4 +1,10 @@
 [![Unit tests](https://github.com/allianz-direct/precommit_nbconvert_rename/actions/workflows/unit_tests.yml/badge.svg)](https://github.com/allianz-direct/precommit_nbconvert_rename/actions/workflows/unit_tests.yml)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/precommit-nbconvert-rename)
+![PyPI](https://img.shields.io/pypi/v/precommit-nbconvert-rename)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/precommit-nbconvert-rename)
+![GitHub contributors](https://img.shields.io/github/contributors/timvink/precommit-nbconvert-rename)
+![PyPI - License](https://img.shields.io/pypi/l/precommit-nbconvert-rename)
+
 
 # precommit_nbconvert_rename
 
