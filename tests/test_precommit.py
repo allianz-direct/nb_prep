@@ -2,6 +2,7 @@ import shutil
 import git
 import os
 import sys
+import pytest
 
 from pathlib import Path
 from datetime import date
