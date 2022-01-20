@@ -105,3 +105,25 @@ You can ignore certain notebooks or even entire directories with [globs](https:/
             args: ["--exclude","templates/*", "a_notebook.ipynb"]
         -   id: nb_prep_postcommit
     ```
+
+## Removing commit hash
+
+Inserting a commit hash into the HTML filename can be useful to track which commit created the content. You can disable it using the `--no-git-hash-suffix` parameter. Note we also do not need the `nb_prep rename` step anymore.
+
+=== "CLI"
+
+    ```bash
+    nb_prep process --no-git-hash-suffix .
+    ```
+
+===  "Pre-commit hook"
+
+    ```yaml
+    # .pre-commit-config.yaml
+    repos:
+    -   repo: https://github.com/allianz-direct/nb_prep
+        rev: main
+        hooks:
+        -   id: nb_prep_precommit
+            args: ["--no-git-hash-suffix"]
+    ```
