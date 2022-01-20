@@ -80,5 +80,5 @@ def test_precommit_hook(tmp_path):
         repo.git.commit(message="add stuff", author=author)
 
         out = shell_output(f"pre-commit try-repo {current_dir} --verbose --hook-stage post-commit")
-        assert "nb_prep (post-commit; replace commithash in .html filenames)...." in out
+        assert "nb_prep (post-commit; replace hash placeholder in .html filenames)...." in out
         assert "...Passed" in out

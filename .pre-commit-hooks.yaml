@@ -7,7 +7,7 @@
     types: [jupyter]
     stages: [commit]
 -   id: nb_prep_postcommit
-    name: nb_prep (post-commit; replace commithash in .html filenames)
+    name: nb_prep (post-commit; replace hash placeholder in .html filenames)
     description: 'Replaces NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER with commit hash in any .html filenames.'
     entry: nb_prep rename
     types: [html]    
