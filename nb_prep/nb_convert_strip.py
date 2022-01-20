@@ -35,8 +35,10 @@ def convert_notebook(
     if not isinstance(output_dir, Path):
         output_dir = Path(output_dir)
 
+    output_dir = output_dir.expanduser()
+
     if not Path(output_dir).exists():
-        raise IsADirectoryError(f"The --output-dir specified ('{output_dir}') does not exist")
+        raise NotADirectoryError(f"The --output-dir specified ('{output_dir}') does not exist")
 
     # Run 'nbconvert' ############
 

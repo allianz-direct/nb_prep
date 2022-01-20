@@ -31,6 +31,15 @@ def rename(
         paths = [Path(os.getcwd())]
 
     if output_dir is not None:
+
+        if not isinstance(output_dir, Path):
+            output_dir = Path(output_dir)
+
+        output_dir = output_dir.expanduser()
+
+        if not Path(output_dir).exists():
+            raise NotADirectoryError(f"The --output-dir specified ('{output_dir}') does not exist")
+
         paths += [output_dir]
 
     filenames = find_files_in_paths(paths, extension=".html")
