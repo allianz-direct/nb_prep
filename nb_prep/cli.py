@@ -15,7 +15,10 @@ app = typer.Typer()
 
 
 @app.command()
-def rename(paths: List[Path] = typer.Argument(None, help="Directories and/or files to find and convert notebooks")):
+def rename(
+    paths: List[Path] = typer.Argument(None, help="Directories and/or files to find and convert notebooks"),
+    output_dir: Optional[Path] = typer.Option(None, help="Additional path where to find and rename HTML files."),
+):
     """
     Replaces the placeholder NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER with the current commit hash.
 
@@ -26,6 +29,9 @@ def rename(paths: List[Path] = typer.Argument(None, help="Directories and/or fil
     """
     if len(paths) == 0:
         paths = [Path(os.getcwd())]
+
+    if output_dir is not None:
+        paths += [output_dir]
 
     filenames = find_files_in_paths(paths, extension=".html")
 

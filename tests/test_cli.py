@@ -84,3 +84,36 @@ def test_app_command_process_with_different_date_prefix(tmp_path):
         assert example.exists()
         another_example = tmp_path / "data" / "2000_another_example_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html"
         assert another_example.exists()
+
+
+@freeze_time("2000-11-22")
+def test_app_command_process_with_output_dir(tmp_path, mocker):
+
+    mocker.patch("nb_prep.cli.git_version", return_value="abcd1234")
+
+    shutil.copytree("tests/data/", tmp_path / "data")
+    with working_directory(str(tmp_path)):
+        output_dir = tmp_path / "my_output_dir"
+        result = runner.invoke(app, ["process", "--output-dir", str(output_dir)])
+
+        assert result.exit_code == 1
+        assert "The --output-dir specified" in str(result.exception)
+        assert " does not exist" in str(result.exception)
+
+        output_dir = tmp_path
+        result = runner.invoke(app, ["process", "--output-dir", str(output_dir)])
+        assert result.exit_code == 0
+
+        example = output_dir / "20001122_example_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html"
+        assert example.exists()
+        another_example = output_dir / "20001122_another_example_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html"
+        assert another_example.exists()
+
+        # Test with renaming in output dir
+        result = runner.invoke(app, ["rename", "--output-dir", str(output_dir)])
+        assert result.exit_code == 0
+
+        example = output_dir / "20001122_example_abcd1234.html"
+        assert example.exists()
+        another_example = output_dir / "20001122_another_example_abcd1234.html"
+        assert another_example.exists()

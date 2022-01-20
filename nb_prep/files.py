@@ -41,7 +41,7 @@ def find_files_in_paths(
 
         filenames += files
 
-    return filenames
+    return list(set(filenames))
 
 
 def is_excluded(src_path: Path, globs: Optional[List[str]] = None) -> bool:

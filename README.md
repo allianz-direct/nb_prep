@@ -160,10 +160,10 @@ CLI:
 
 ```bash
 nb_prep process --output-dir "~/workspace/notebook_output" .
+nb_prep rename --output-dir "~/workspace/notebook_output" .
 ```
 
 Pre-commit hook:
-
 
 ```yaml
 repos:
@@ -173,6 +173,7 @@ repos:
     -   id: nb_prep_precommit
         args: ["--output-dir","~/workspace/notebook_output"]
     -   id: nb_prep_postcommit
+        args: ["--output-dir","~/workspace/notebook_output"]
 ```
 
 ### Excluding directories and files
