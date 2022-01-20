@@ -1,6 +1,7 @@
 import shutil
 import git
 import os
+import sys
 
 from pathlib import Path
 from datetime import date
@@ -19,6 +20,7 @@ def shell_output(command) -> str:
     return std_out.strip()
 
 
+@pytest.mark.skipif(sys.platform == "win32", reason="Hard to debug windows when developing on linux")
 def test_precommit_hook(tmp_path):
     """
     Tests if the full setup with precommit hooks works properly.
