@@ -16,6 +16,7 @@ setup_args = {
     ],
     "author": "Tim Vink",
     "author_email": "tim.vink@allianzdirect.nl",
+    "description": "Prepare jupyter notebooks for storing in git and sharing as HTML",
     "long_description": long_description,
     "long_description_content_type": "text/markdown",
     "url": "https://github.com/allianz-direct/nb_prep",
