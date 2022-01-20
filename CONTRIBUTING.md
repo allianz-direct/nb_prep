@@ -3,13 +3,14 @@
 ## Dev setup
 
 ```shell
-pip install -r dev_requirements.txt
+pip install -r tests/test_requirements.txt
 pre-commit install
 ```
 
 ## Edit drawings
 
 We useed excalidraw, you can edit the vector image [here](https://excalidraw.com/#json=5272425855975424,sXm3L5A8Yr5EH9nkuENJIQ).
+
 ## Testing
 
 There are some unit tests you can run with `pytest`. 
@@ -20,13 +21,13 @@ In a workspace directory, assuming already have a local clone of this repo:
 
 ```shell
 mkdir test_prj
-cp precommit_nbconvert_rename/tests/data/example.ipynb test_prj/
+cp nb_prep/tests/data/example.ipynb test_prj/
 cd test_prj
 git init
 git add --all
-pre-commit try-repo ..\precommit_nbconvert_rename\ --verbose
+pre-commit try-repo ../nb_prep --verbose
 git commit -m "test"
-pre-commit try-repo ..\precommit_nbconvert_rename\ --verbose --hook-stage post-commit
+pre-commit try-repo ../nb_prep/ --verbose --hook-stage post-commit
 ```
 
 ### manually test a precommit config
@@ -35,8 +36,8 @@ In a workspace directory, assuming already have a local clone of this repo:
 
 ```shell
 mkdir test_precommit_prj
-cp precommit_nbconvert_rename/tests/data/example.ipynb test_precommit_prj/
-cp precommit_nbconvert_rename/tests/data/pre-commit-test-config.yaml test_precommit_prj/.pre-commit-config.yaml
+cp nb_prep/tests/data/example.ipynb test_precommit_prj/
+cp nb_prep/tests/data/pre-commit-test-config.yaml test_precommit_prj/.pre-commit-config.yaml
 cd test_precommit_prj
 git init
 pre-commit install

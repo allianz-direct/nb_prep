@@ -1,7 +1,15 @@
 pre-commit
 black
 flake8
+flake8-docstrings
 pytest
 pytest-cov
+pytest-mock
 mypy
 freezegun
+types-freezegun
+GitPython
+# for documentation
+mkdocs-material
+mkdocs-git-authors-plugin
+mkdocs-git-revision-date-localized-plugin

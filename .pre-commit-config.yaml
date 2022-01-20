@@ -24,7 +24,7 @@ repos:
       language: system
       types: [python]
       exclude: tests/
-      args: [--max-line-length=120, --docstring-convention=google, "--ignore=D100,D104,D212,D200,E203,W293,D412,W503,E731"]
+      args: [--max-line-length=120, --docstring-convention=google, "--ignore=D100,D104,D212,D200,D301,E203,W293,D412,W503,E731"]
   - repo: local
     hooks:
     - id: pytest
@@ -42,3 +42,4 @@ repos:
 # W293 blank line contains whitespace
 # W503 line break before binary operator (for compatibility with black)
 # E731: allow lambdas to be used, do not enforce def
+# D301 Use r""" if any backslashes in a docstring

@@ -34,7 +34,6 @@ jobs:
         python setup.py sdist bdist_wheel
         twine upload dist/*
 
-    # - name: Deploy mkdocs site
-    #   run: | 
-    #     pip install mkdocs-git-authors-plugin
-    #     mkdocs gh-deploy --force
+    - name: Deploy mkdocs site
+      run: | 
+        mkdocs gh-deploy --force
