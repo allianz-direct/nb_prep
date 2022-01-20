@@ -14,6 +14,7 @@ from pathlib import Path
 def convert_notebook(
     path: Path,
     date_format: str = "%Y%m%d",
+    git_hash_suffix: bool = True,
     template: str = "",
     no_input: bool = False,
     output_dir: Path = Path("."),
@@ -24,6 +25,7 @@ def convert_notebook(
     Args:
         path (str): path to notebook
         date_format (str): format to write date prefix in
+        git_hash_suffix (bool): Whether to include a placeholder in HTML filename for a git commit hash.
         template (str): Name of the nbconvert template
         no_input (bool): Remove code input blocks
         output_dir (str): Path to output directory (rel or abs)
@@ -50,15 +52,20 @@ def convert_notebook(
 
     (body, _) = html_exporter.from_filename(str(path))
 
+    html_path = Path(path)
+
+    # Add date prefix
     date_prefix = datetime.strftime(datetime.now(), date_format)
     if len(date_prefix) != 0:
         date_prefix += "_"
+    html_path = html_path.with_name(f"{date_prefix}{html_path.stem}")
 
-    html_path = Path(path)
+    # Add git hash suffix
+    if git_hash_suffix:
+        html_path = html_path.with_name(f"{html_path.stem}_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER")
 
-    html_path = html_path.with_name(f"{date_prefix}{html_path.stem}_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER")
+    # Determine output filename.
     html_path = html_path.with_suffix(".html")
-
     output_path = Path(output_dir)
     if output_path.is_absolute():
         # absolute output directory
@@ -76,8 +83,8 @@ def convert_notebook(
     # using html_path_.exists() prevents this.
     # If a user would continue editing the .ipynb after the failed precommit nbstripout
     # Then the nbconvert .html would be outdated of course.
-    if not html_path.exists():
-        with codecs.open(str(html_path), "w", "utf-8") as f:
+    if not output_file.exists():
+        with codecs.open(str(output_file), "w", "utf-8") as f:
             f.write(body)
 
     # Run 'nbstripout' ############

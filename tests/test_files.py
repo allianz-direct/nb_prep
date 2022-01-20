@@ -11,6 +11,7 @@ def test_is_excluded():
     assert is_excluded(Path("data/notebook.ipynb"), ["*/notebook.ipynb"])
     assert is_excluded(Path("data/notebook.ipynb"), ["data/*"])
     assert is_excluded(Path("notebook.ipynb"), ["notebook.ipynb"])
+    assert is_excluded(Path("/tmp/pytest-136/data/example.ipynb"), ["example.ipynb"])
 
 
 def test_find_files_in_paths(tmp_path):

@@ -63,25 +63,27 @@ def is_excluded(src_path: Path, globs: Optional[List[str]] = None) -> bool:
         return False
 
     assert isinstance(src_path, Path)
-    assert isinstance(globs, list)
+    assert hasattr(globs, "__iter__")  # list or tuple
+
+    # Windows reports filenames as eg.  a\\b\\c instead of a/b/c.
+    # To make the same globs/regexes match filenames on Windows and
+    # other OSes, let's try matching against converted filenames.
+    # On the other hand, Unix actually allows filenames to contain
+    # literal \\ characters (although it is rare), so we won't
+    # always convert them.  We only convert if os.sep reports
+    # something unusual.  Conversely, some future mkdocs might
+    # report Windows filenames using / separators regardless of
+    # os.sep, so we *always* test with / above.
+    if os.sep != "/":
+        src_path_fix = str(src_path).replace(os.sep, "/")
+    else:
+        src_path_fix = str(src_path)
 
     for g in globs:
-        if fnmatch.fnmatchcase(str(src_path), g):
+        if fnmatch.fnmatchcase(src_path_fix, g):
             return True
-
-        # Windows reports filenames as eg.  a\\b\\c instead of a/b/c.
-        # To make the same globs/regexes match filenames on Windows and
-        # other OSes, let's try matching against converted filenames.
-        # On the other hand, Unix actually allows filenames to contain
-        # literal \\ characters (although it is rare), so we won't
-        # always convert them.  We only convert if os.sep reports
-        # something unusual.  Conversely, some future mkdocs might
-        # report Windows filenames using / separators regardless of
-        # os.sep, so we *always* test with / above.
-        if os.sep != "/":
-            src_path_fix = str(src_path).replace(os.sep, "/")
-            if fnmatch.fnmatchcase(src_path_fix, g):
-                return True
+        if src_path.name == g:
+            return True
 
     return False
 

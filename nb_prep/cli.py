@@ -37,6 +37,9 @@ def rename(paths: List[Path] = typer.Argument(None, help="Directories and/or fil
 def process(
     paths: List[Path] = typer.Argument(None, help="Directories and/or files to find and convert notebooks"),
     date_prefix: str = typer.Option("%Y%m%d", help="Format of the date prefix. Set to empty for no prefix."),
+    git_hash_suffix: bool = typer.Option(
+        True, help="Whether to include a placeholder in HTML filename for a git commit hash."
+    ),
     output_dir: Path = typer.Option(Path("."), help="Path where to place output HTML files."),
     exclude: Optional[List[str]] = typer.Option(None, help="Globs of directories/files to exclude from processing"),
     nbconvert_template: str = typer.Option("", help="Name of the nbconvert template to use."),
@@ -63,6 +66,7 @@ def process(
         convert_notebook(
             path,
             date_format=date_prefix,
+            git_hash_suffix=git_hash_suffix,
             template=nbconvert_template,
             no_input=nbconvert_no_input,
             output_dir=output_dir,
