@@ -56,14 +56,14 @@ def test_precommit_hook(tmp_path):
         # First pass pre-commit. Will output something like:
         # nb_prep (pre-commit; process notebooks)..................................Failed
         # - hook id: nb_prep_precommit
-        out = shell_output(f"pre-commit try-repo {current_dir} --verbose")
+        out = shell_output(f"pre-commit try-repo '{current_dir}' --verbose")
         assert "nb_prep (pre-commit; process notebooks).." in out
         assert "...Failed" in out
 
         # Add changes
         repo.git.add(all=True)
         # Second pass should succeed
-        out = shell_output(f"pre-commit try-repo {current_dir} --verbose")
+        out = shell_output(f"pre-commit try-repo '{current_dir}' --verbose")
         assert "nb_prep (pre-commit; process notebooks).." in out
         assert "...Passed" in out
 
@@ -79,6 +79,6 @@ def test_precommit_hook(tmp_path):
         repo.git.add(all=True)
         repo.git.commit(message="add stuff", author=author)
 
-        out = shell_output(f"pre-commit try-repo {current_dir} --verbose --hook-stage post-commit")
+        out = shell_output(f"pre-commit try-repo '{current_dir}' --verbose --hook-stage post-commit")
         assert "nb_prep (post-commit; replace hash placeholder in .html filenames)...." in out
         assert "...Passed" in out
