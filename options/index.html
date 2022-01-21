@@ -382,6 +382,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#removing-date-prefix" class="md-nav__link">
+    Removing date prefix
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -449,6 +456,13 @@
         <li class="md-nav__item">
   <a href="#removing-commit-hash" class="md-nav__link">
     Removing commit hash
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-date-prefix" class="md-nav__link">
+    Removing date prefix
   </a>
   
 </li>
@@ -585,6 +599,32 @@ nb_prep rename --output-dir <span class="s2">&quot;~/workspace/notebook_output&q
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nb_prep_precommit</span><span class="w"></span>
 <span class="w">        </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;--no-git-hash-suffix&quot;</span><span class="p p-Indicator">]</span><span class="w"></span>
 </code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code>nb_prep process</code> will not overwrite any output files that already exist.
+When you use the default setting, only the first commit of the day will generate output.</p>
+<p>To fix that, use a more detailed date prefix like <code>%Y%m%d%H%M%S</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<h2 id="removing-date-prefix">Removing date prefix</h2>
+<p>By default, output HTML will have a YYYYMMDD_ prefix. You can remove it by setting an empty prefix (<code>""</code>) or change the prefix by speficying a different format (see <a href="https://strftime.org/">strftime cheatsheet</a>).</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">CLI</label><label for="__tabbed_6_2">Pre-commit hook</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nb_prep process --date-prefix <span class="s2">&quot;&quot;</span> .
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># .pre-commit-config.yaml</span><span class="w"></span>
+<span class="nt">repos</span><span class="p">:</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/allianz-direct/nb_prep</span><span class="w"></span>
+<span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w"></span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nb_prep_precommit</span><span class="w"></span>
+<span class="w">        </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;--date-prefix&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p p-Indicator">]</span><span class="w"></span>
+</code></pre></div>
 </div>
 </div>
 </div>
@@ -594,7 +634,7 @@ nb_prep rename --output-dir <span class="s2">&quot;~/workspace/notebook_output&q
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-01-21T13:20:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-01-21</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-01-21T14:59:01+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-01-21</span>
       
     
   </small>

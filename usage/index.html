@@ -447,7 +447,7 @@
 <li><a href="https://github.com/kynan/nbstripout">nbstripout</a> to avoid committing (potentially sensitive) data to git and get proper <code>git diff</code>s on notebooks (only showing changes in code).</li>
 </ul>
 <p>Forget to run <code>nbconvert</code> or use them in the wrong order (<code>nbstripout</code> before <code>nbconvert</code>) and you will have to re-run your notebooks before you can output HTML, which can be annoying when they are long-running. Especially when you use <code>nbstripout</code> as a <a href="https://pre-commit.com/">pre-commit</a> hook, this can happen quite often.</p>
-<p><code>nb_prep</code> can help to automatically process notebooks and (optionally) store versioned output in an in output directory. </p>
+<p><code>nb_prep</code> can help to automatically process notebooks and (optionally) store versioned output in an output directory.</p>
 <h2 id="using-as-a-cli">Using as a CLI</h2>
 <p>The CLI command <code>nb_prep process</code> takes a list of directories and/or files to find and process notebooks. For each notebook:</p>
 <ul>
@@ -455,17 +455,17 @@
 <li>A date prefix is added <code>YYYYMMDD_&lt;filename&gt;.html</code> (can be turned off)</li>
 <li>A placeholder for git hash is added <code>YYYYMMDD_&lt;filename&gt;_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html</code></li>
 <li>The <code>.html</code> file is moved to an <code>output-dir</code> (if specified)</li>
-<li>The <code>nbstripout</code> is used strip output from the <code>.ipynb</code> file</li>
+<li>The <code>nbstripout</code> is used to strip output from the <code>.ipynb</code> file</li>
 </ul>
 <p>Now you can <code>git add</code> and <code>git commit</code> the changed notebook files. You can then use <code>nb_prep rename</code> to insert the commit hashes in the notebook filenames. For example:</p>
 <p><code>20220101_my_notebook_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html</code> -&gt; <code>20220101_my_notebook_eac9e43.html</code></p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>You'll probably want to <code>.gitignore</code> the <code>.html</code> files generated. Especially if you use <code>--output-dir</code>.</p>
+<p>Add <code>*.html</code> to a <code>.gitignore</code> in the root of your repository to avoid committing HTML files to git.</p>
 </div>
 <h2 id="setting-up-as-a-pre-commit-hook">Setting up as a pre-commit hook</h2>
-<p>You can setup this entire workflow once as <a href="https://pre-commit.com/">pre-commit</a> hook, and basically get an up-to-date analysis output directory for free <code>output-dir</code>. Schematically:</p>
-<p><img src="/assets/images/schema_workflow.png"></p>
+<p>You can setup this entire workflow once as <a href="https://pre-commit.com/">pre-commit</a> hook, and basically get an up-to-date analysis output directory for free at the specified <code>--output-dir</code>. Schematically:</p>
+<p><img alt="" src="../assets/images/schema_workflow.png" /></p>
 <p>You need to update the <code>.pre-commit-config.yaml</code> in your repository to include <code>nb_prep</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">repos</span><span class="p">:</span><span class="w"></span>
 <span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/allianz-direct/nb_prep</span><span class="w"></span>
@@ -501,7 +501,7 @@ git commit -m <span class="s2">&quot;Add notebook&quot;</span>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-01-20T14:12:18+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-01-20</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-01-21T14:59:01+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-01-21</span>
       
     
   </small>
@@ -512,7 +512,7 @@ git commit -m <span class="s2">&quot;Add notebook&quot;</span>
   
     <div class="md-source-date">
       <small>
-          Authors: <span class='git-page-authors git-authors'><a href='mailto:vinktim@gmail.com'>Tim Vink</a></span>
+          Authors: <span class='git-page-authors git-authors'><a href='mailto:vinktim@gmail.com'>Tim Vink</a>, <a href='mailto:tim.vink@allianzdirect.nl'>Tim Vink</a></span>
       </small>
     </div>
   
