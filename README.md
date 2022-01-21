@@ -7,7 +7,7 @@
 
 # nb_prep
 
-`nb_prep` makes it easier to prepare jupyter notebooks for storing in git and sharing with stakeholders. 
+`nb_prep` prepares jupyter notebooks for storing stripped versions in git and sharing results with stakeholders.
 
 You can use the `nb_prep` CLI to:
 

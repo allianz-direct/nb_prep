@@ -142,3 +142,34 @@ Inserting a commit hash into the HTML filename can be useful to track which comm
         -   id: nb_prep_precommit
             args: ["--no-git-hash-suffix"]
     ```
+
+    !!! warning
+
+        `nb_prep process` will not overwrite any output files that already exist.
+        When you use the default setting, only the first commit of the day will generate output.
+
+        To fix that, use a more detailed date prefix like `%Y%m%d%H%M%S`.
+
+
+
+## Removing date prefix
+
+By default, output HTML will have a YYYYMMDD_ prefix. You can remove it by setting an empty prefix (`""`) or change the prefix by speficying a different format (see [strftime cheatsheet](https://strftime.org/)).
+
+=== "CLI"
+
+    ```bash
+    nb_prep process --date-prefix "" .
+    ```
+
+===  "Pre-commit hook"
+
+    ```yaml
+    # .pre-commit-config.yaml
+    repos:
+    -   repo: https://github.com/allianz-direct/nb_prep
+        rev: main
+        hooks:
+        -   id: nb_prep_precommit
+            args: ["--date-prefix", ""]
+    ```

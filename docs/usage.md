@@ -13,7 +13,7 @@ You use [jupyter notebooks](https://jupyter.org/) and:
 
 Forget to run `nbconvert` or use them in the wrong order (`nbstripout` before `nbconvert`) and you will have to re-run your notebooks before you can output HTML, which can be annoying when they are long-running. Especially when you use `nbstripout` as a [pre-commit](https://pre-commit.com/) hook, this can happen quite often.
 
-`nb_prep` can help to automatically process notebooks and (optionally) store versioned output in an in output directory. 
+`nb_prep` can help to automatically process notebooks and (optionally) store versioned output in an output directory.
 
 ## Using as a CLI
 
@@ -23,7 +23,7 @@ The CLI command `nb_prep process` takes a list of directories and/or files to fi
 - A date prefix is added `YYYYMMDD_<filename>.html` (can be turned off)
 - A placeholder for git hash is added `YYYYMMDD_<filename>_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html`
 - The `.html` file is moved to an `output-dir` (if specified)
-- The `nbstripout` is used strip output from the `.ipynb` file
+- The `nbstripout` is used to strip output from the `.ipynb` file
 
 Now you can `git add` and `git commit` the changed notebook files. You can then use `nb_prep rename` to insert the commit hashes in the notebook filenames. For example:
 
@@ -31,14 +31,13 @@ Now you can `git add` and `git commit` the changed notebook files. You can then 
 
 !!! tip
 
-    You'll probably want to `.gitignore` the `.html` files generated. Especially if you use `--output-dir`.
+    Add `*.html` to a `.gitignore` in the root of your repository to avoid committing HTML files to git.
 
 ## Setting up as a pre-commit hook
 
-You can setup this entire workflow once as [pre-commit](https://pre-commit.com/) hook, and basically get an up-to-date analysis output directory for free `output-dir`. Schematically:
+You can setup this entire workflow once as [pre-commit](https://pre-commit.com/) hook, and basically get an up-to-date analysis output directory for free at the specified `--output-dir`. Schematically:
 
-<img src="/assets/images/schema_workflow.png">
-
+![](assets/images/schema_workflow.png)
 
 You need to update the `.pre-commit-config.yaml` in your repository to include `nb_prep`:
 
