@@ -14,9 +14,12 @@ def find_files_in_paths(
     Find all files with a certain extension in a list of paths.
 
     Args:
-        directories: List of paths to dirs and files.
-        extension: Extension of target files.
-        exclude_list: List of globs to exclude.
+        directories (list): List of paths to dirs and files.
+        extension (str): Extension of target files.
+        exclude_list (list): List of globs to exclude.
+
+    Returns:
+        (list) Files found in paths.
     """
     assert extension.startswith(".")
 
