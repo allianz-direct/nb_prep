@@ -34,6 +34,21 @@ If you want to specify a different template for `nbconvert`, you can add an argu
         -   id: nb_prep_postcommit
     ```
 
+    If you use a custom nbconvert template in combination with a pre-commit hook, you'll need to specify it as an `additional_dependencies`. For example when using [nbconvert-acme](https://github.com/SylvainCorlay/nbconvert-acme/):
+
+    ```yaml
+    # .pre-commit-config.yaml
+    repos:
+    -   repo: https://github.com/allianz-direct/nb_prep
+        rev: main
+        hooks:
+        -   id: nb_prep_precommit
+            args: ["--nbconvert-template","reveal"]
+            additional_dependencies: ["https://github.com/SylvainCorlay/nbconvert-acme"]
+        -   id: nb_prep_postcommit
+    ```
+
+
 ## Removing cell blocks
 
 You can also choose to remove input code blocks from the converted HTML (equivalent to `jupyter nbconvert --no-input`).
