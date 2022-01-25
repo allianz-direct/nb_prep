@@ -2,7 +2,7 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/nb-prep)
 ![PyPI](https://img.shields.io/pypi/v/nb-prep)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/nb-prep)
-![GitHub contributors](https://img.shields.io/github/contributors/timvink/nb-prep)
+![GitHub contributors](https://img.shields.io/github/contributors-anon/allianz-direct/nb_prep)
 ![PyPI - License](https://img.shields.io/pypi/l/nb-prep)
 
 # nb_prep
