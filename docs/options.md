@@ -43,7 +43,7 @@ If you want to specify a different template for `nbconvert`, you can add an argu
         rev: main
         hooks:
         -   id: nb_prep_precommit
-            args: ["--nbconvert-template","reveal"]
+            args: ["--nbconvert-template","acme"]
             additional_dependencies: ["git+https://github.com/SylvainCorlay/nbconvert-acme"]
         -   id: nb_prep_postcommit
     ```
