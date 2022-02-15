@@ -8,7 +8,7 @@ from nb_prep.files import working_directory
 
 
 @freeze_time("2012-01-14")
-def test_convert_notebook(tmp_path):
+def test_convert_notebook(tmp_path, capsys):
 
     shutil.copyfile(
         "tests/data/example.ipynb",
@@ -26,3 +26,8 @@ def test_convert_notebook(tmp_path):
         # No date prefix
         convert_notebook(str(tmp_path / "example.ipynb"), date_format="")
         assert Path("example_NBCONVERT_RENAME_COMMITHASH_PLACEHOLDER.html").exists()
+
+        # Warn if file is not overwritten
+        assert "already exists, not overwriting." not in capsys.readouterr().out
+        convert_notebook(str(tmp_path / "example.ipynb"), date_format="")
+        assert "already exists, not overwriting." in capsys.readouterr().out

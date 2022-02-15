@@ -88,6 +88,8 @@ def convert_notebook(
     if not output_file.exists():
         with codecs.open(str(output_file), "w", "utf-8") as f:
             f.write(body)
+    else:
+        print(f"[nb_prep]: File '{str(output_file)}' already exists, not overwriting.")
 
     # Run 'nbstripout' ############
     try:

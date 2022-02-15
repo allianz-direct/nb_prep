@@ -5,7 +5,7 @@ with open("README.md", "r") as readme:
 
 setup_args = {
     "name": "nb_prep",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "packages": find_packages(),
     "install_requires": [
         "jupyter-client>=7.1.1",  # BSD-3 https://github.com/jupyter/jupyter_client/blob/main/COPYING.md
