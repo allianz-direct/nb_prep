@@ -7,7 +7,7 @@
 
 # nb_prep
 
-`nb_prep` prepares jupyter notebooks for storing stripped versions in git and sharing results with stakeholders.
+`nb_prep` automates preparing jupyter notebooks for sharing and storage.
 
 You can use the `nb_prep` CLI to:
 
@@ -15,9 +15,12 @@ You can use the `nb_prep` CLI to:
     - add a date prefix to the filename.
     - add a git hash suffix to the filename.
     - move the HTML file to a configured output directory
-- Strip all cell outputs (using [`nbstripout`](https://github.com/kynan/nbstripout))
+- Strip jupyter notebooks of all cell outputs (using [`nbstripout`](https://github.com/kynan/nbstripout))
 
-You can also configure `nb_prep` once as a pre-commit hook and have notebook output automatically prepared every time you `git commit`.
+You can also configure `nb_prep` once as a pre- and post-commit hook and have notebook output automatically prepared every time you `git commit`.
+
+`nb_prep` is a useful automation tool when you have a lot of analysis notebooks in git that you want to share with stakeholders.
+If your main interest is preparing clean notebooks for storing in git commits, consider using [jupytext](https://github.com/mwouts/jupytext) instead.
 
 ## Installation
 
