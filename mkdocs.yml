@@ -41,6 +41,8 @@ theme:
 
 plugins:
   - search
+  - macros:
+        module_name: docs/macros
   - git-authors:
         exclude:
             - index.md

@@ -3,17 +3,19 @@ from setuptools import setup, find_packages
 with open("README.md", "r") as readme:
     long_description = readme.read()
 
-setup_args = {
-    "name": "nb_prep",
-    "version": "1.0.2",
-    "packages": find_packages(),
-    "install_requires": [
+base_reqs = [
         "jupyter-client>=7.1.1",  # BSD-3 https://github.com/jupyter/jupyter_client/blob/main/COPYING.md
         "nbconvert>=6.4.0",  # BSD-3 https://github.com/jupyter/nbconvert/blob/main/LICENSE
         "pre-commit>=2.16.0",  # MIT https://github.com/pre-commit/pre-commit/blob/master/LICENSE
         "typer>=0.4.0",  # MIT https://github.com/tiangolo/typer/blob/master/LICENSE
         "nbstripout>=0.5.0",  # MIT https://github.com/kynan/nbstripout/blob/master/LICENSE.txt
-    ],
+    ]
+
+setup_args = {
+    "name": "nb_prep",
+    "version": "1.0.2",
+    "packages": find_packages(),
+    "install_requires": base_reqs,
     "author": "Tim Vink",
     "author_email": "tim.vink@allianzdirect.nl",
     "description": "Prepares jupyter notebooks for storing stripped versions in git and sharing results with stakeholders",

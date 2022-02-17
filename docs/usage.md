@@ -44,7 +44,7 @@ You need to update the `.pre-commit-config.yaml` in your repository to include `
 ```yaml
 repos:
 -   repo: https://github.com/allianz-direct/nb_prep
-    rev: v1.0.2
+    rev: {{ last_git_tag() }}
     hooks:
     -   id: nb_prep_precommit
     -   id: nb_prep_postcommit
